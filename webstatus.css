@@ -1,19 +1,24 @@
+@font-face {
+  font-family: 'VeraMono';
+  src: url('VeraMono.ttf');
+}
+
 table {
     margin:auto;
-    font-family: "courier new";
+    font-family: "VeraMono", "courier new";
     text-align: left;
     font-size: 12px;
     width:100%;
 }
 
 #ajax-response {
-    font-family: "courier new";
+    font-family: "VeraMono", "courier new";
     text-align: left;
     font-size: 12px;
 }
 
 #data-table {
-    background-color: black;
+    background-color: rgb(20,20,20);
     color: rgb(180,180,180);
 }
 
@@ -31,9 +36,24 @@ td {
     padding: 3px 5px;
 }
 
+th {
+    font-weight: normal;
+    color: black;
+}
+
 th,
+th a {
+    background-color: rgb(180,180,180);
+    color: black !important;
+}
+
 tr.alt td {
-    background-color: rgb(20,20,20);
+    background-color: rgb(40,40,40);
+}
+
+tr.alt:hover td,
+tr.norm:hover td {
+    background-color: rgb(60,60,60) !important;
 }
 
 a:link,
@@ -58,14 +78,20 @@ a:visited {
     color: rgb(85,85,85);
 }
 
-#sort,
-#sort a {
-    background-color: rgb(180,180,180) !important;
+.sort,
+.sort a {
+    background-color: rgb(220,220,220);
+    color: black;
+}
+
+.sort:hover,
+.sort:hover a {
+    background-color: rgb(240,240,240);
     color: black !important;
 }
 
 th:hover, 
 th:hover a {
-    background-color: rgb(20,20,20);
-    color: white;
+    background-color: rgb(200,200,200);
+    color: black !important;
 }

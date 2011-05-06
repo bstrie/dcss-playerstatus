@@ -147,7 +147,7 @@ function CreateTable()
   {
     if(i == sort_category)
     {
-      table_string += "<th id='sort'><a target='_self' href='javascript:SortCategories(\"" + i + "\")'>" + i + "</a></td>";
+      table_string += "<th class='sort'><a target='_self' href='javascript:SortCategories(\"" + i + "\")'>" + i + "</a></td>";
     }
     else
     {
