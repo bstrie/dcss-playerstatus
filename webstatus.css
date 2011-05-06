@@ -17,19 +17,13 @@ table {
     color: rgb(180,180,180);
 }
 
-#data-table tr:hover a {
+tr.norm:hover td a,
+tr.alt:hover td a {
     color: white !important;
 }
 
 body {
 	background: transparent !important;
-}
-
-caption {
-    font-weight: bold;
-    margin-bottom: 10px;
-    margin-top: 10px;
-    color: black;
 }
 
 th,
@@ -42,18 +36,10 @@ tr.alt td {
     background-color: rgb(20,20,20);
 }
 
-a:link {
-    text-decoration: none;
-    color: rgb(192,192,192);
-}
-
+a:link,
 a:visited {
     text-decoration: none;
-    color: white;
-}
-
-.td1 {
-    text-decoration: underline;
+    color: rgb(192,192,192);
 }
 
 #timer {
@@ -72,8 +58,14 @@ a:visited {
     color: rgb(85,85,85);
 }
 
-.sort,
-th:hover {
-    background-color: rgb(180,180,180);
-    color: black;
+#sort,
+#sort a {
+    background-color: rgb(180,180,180) !important;
+    color: black !important;
+}
+
+th:hover, 
+th:hover a {
+    background-color: rgb(20,20,20);
+    color: white;
 }

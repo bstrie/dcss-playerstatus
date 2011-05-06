@@ -1,5 +1,7 @@
 function MakeRequest()
 {
+  document.getElementById('ajax-response').innerHTML = "Loading games...";
+  
   var xmlHttp = getXMLHttp();
  
   xmlHttp.onreadystatechange = function()
@@ -56,15 +58,88 @@ function HandleResponse(response)
   for(i = 0; i < (split_response.length); i++)
   {
     game = split_response[i].split("#");
-    game_data[i]={Player: game[0], Version: game[1], XL: game[2], Char: game[3], Location: game[4], Term: game[5], Idle: game[6], View: game[7], Server: game[8]};
+    game_data[i]={Player: game[0], Version: game[1], XL: ParseXL(game[2]), Char: game[3], Place: game[4], Term: game[5], Idle: game[6], View: game[7], Server: game[8]};
   }
+  
+  SortData();
+}
+
+function ParseXL(raw_xl)
+{
+  var xl;
+  xl = raw_xl.slice(1);
+  
+  if((xl.length) == 1)
+  {
+    xl = "&nbsp;" + xl;
+  }
+  
+  return xl;
+}
+
+function SortData()
+{
+  var sort_keys = new Array();
+  var game;
+  var key;
+  
+  for(i = 0; i < (game_data.length); i++)
+  {
+    game = game_data[i];
+    key = FudgeNumbers(game[sort_category]) + "#" + game["Player"] + "|" + i;
+    sort_keys[i] = key.toLowerCase();
+  }
+  
+  sort_keys.sort();
+  
+  var index;
+  var sorted_games = new Array();
+  
+  for(i = 0; i < (sort_keys.length); i++)
+  {
+    index = sort_keys[i].split("|")[1]
+    sorted_games[i] = game_data[index];
+  }
+  
+  game_data = sorted_games;
+  
+  //document.getElementById('debug').innerHTML = sorted_games[0].Player;
   
   CreateTable();
 }
 
+function FudgeNumbers(value)
+{
+  if(sort_category == "Idle" || sort_category == "Term")
+  {
+    switch(value.length)
+    {
+    case 1:
+      value = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + value;
+      break;
+    case 2:
+      value = "&nbsp;&nbsp;&nbsp;&nbsp;" + value;
+      break;
+    case 3:
+      value = "&nbsp;&nbsp;&nbsp;" + value;
+      break;
+    case 4:
+      value = "&nbsp;&nbsp;" + value;
+      break;
+    case 5:
+      value = "&nbsp;" + value;
+      break;
+    default:
+      break;
+    }
+  }
+  
+  return value;
+}
+
 function CreateTable()
 {
-  var table_string = "<table id='data-table'><tr>";
+  var table_string = "<table id='data-table'><tr class='headrow'>";
   
   game = game_data[0];
   
@@ -72,11 +147,11 @@ function CreateTable()
   {
     if(i == sort_category)
     {
-      table_string += "<th class='sort'>" + i + "</td>";
+      table_string += "<th id='sort'><a target='_self' href='javascript:SortCategories(\"" + i + "\")'>" + i + "</a></td>";
     }
     else
     {
-      table_string += "<th>" + i + "</td>";
+      table_string += "<th><a target='_self' href='javascript:SortCategories(\"" + i + "\")'>" + i + "</a></td>";
     }
   }
   
@@ -91,7 +166,7 @@ function CreateTable()
     
     if(i % 2 == 0)
     {
-      table_string += "<tr>";
+      table_string += "<tr class='norm'>";
     }
     else
     {
@@ -121,6 +196,20 @@ function CreateTable()
   table_string += "</table><table><tr><td>" + (game_data.length) + " game" + (game_data.length==1 ? "" : "s") + " in progress</td><td id='timer'><span class='blue'>====================</span><span class='purple'>-</span><span class='grey'>---</span></td></tr></table>";
   
   document.getElementById('ajax-response').innerHTML = table_string;
+}
+
+function SortCategories(new_category)
+{
+  if(sort_category == new_category)
+  {
+    game_data = game_data.reverse();
+    CreateTable();
+  }
+  else
+  {
+    sort_category = new_category;
+    SortData();
+  }
 }
 
 function convertIdle(seconds)
