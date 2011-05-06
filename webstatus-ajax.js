@@ -60,7 +60,7 @@ function HandleResponse(response)
     game_data[i]={Player: game[0], Version: game[1], XL: game[2], Char: game[3], Location: game[4], Term: game[5], Idle: game[6], View: game[7], Server: game[8]};
   }
 
-  var table_string = "<table class='webstatus' id='webstatus'><tr>";
+  var table_string = "<table id='data-table'><tr>";
   
   game = game_data[0];
   
@@ -107,7 +107,7 @@ function HandleResponse(response)
     table_string += "</tr>";
   }
   
-  table_string += "</table>";
+  table_string += "</table><table><tr><td>" + (game_data.length) + " game" + (game_data.length==1 ? "" : "s") + " in progress</td><td id='timer'>Timer</td></tr></table>";
   
   document.getElementById('ajax-response').innerHTML = table_string;
 }

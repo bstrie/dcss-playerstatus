@@ -1,43 +1,56 @@
-.webstatus {
-    background-color: black;
+table {
     margin:auto;
     font-family: "courier new";
     text-align: left;
-    color: rgb(180,180,180);
     font-size: 12px;
+    width:100%;
+}
+
+#data-table {
+    background-color: black;
+    color: rgb(180,180,180);
 }
 
 body {
 	background: transparent !important;
 }
 
-#webstatus caption {
+caption {
     font-weight: bold;
-    font-size: 18px;
     margin-bottom: 10px;
     margin-top: 10px;
+    color: black;
 }
 
-#webstatus th,
-#webstatus td {
+th,
+td {
     padding: 3px 5px;
 }
 
-#webstatus th,
-#webstatus tr.alt td {
+th,
+tr.alt td {
     background-color: rgb(20,20,20);
 }
 
-#webstatus a:link {
+a:link {
     text-decoration: none;
     color: rgb(192,192,192);
 }
 
-#webstatus a:visited {
+a:visited {
     text-decoration: none;
     color: white;
 }
 
 .td1 {
     text-decoration: underline;
+}
+
+.gamecount,
+.timer {
+    background: transparent !important;
+}
+
+#timer {
+    text-align: right;
 }
