@@ -51,7 +51,6 @@ function HandleResponse(response)
   var split_response = new Array();
   split_response = response.split("|");
   
-  var game_data = new Array();
   var game;
   
   for(i = 0; i < (split_response.length); i++)
@@ -59,14 +58,26 @@ function HandleResponse(response)
     game = split_response[i].split("#");
     game_data[i]={Player: game[0], Version: game[1], XL: game[2], Char: game[3], Location: game[4], Term: game[5], Idle: game[6], View: game[7], Server: game[8]};
   }
+  
+  CreateTable();
+}
 
+function CreateTable()
+{
   var table_string = "<table id='data-table'><tr>";
   
   game = game_data[0];
   
   for(i in game)
   {
-    table_string += "<th>" + i + "</td>";
+    if(i == sort_category)
+    {
+      table_string += "<th class='sort'>" + i + "</td>";
+    }
+    else
+    {
+      table_string += "<th>" + i + "</td>";
+    }
   }
   
   table_string += "</tr>";
@@ -107,7 +118,7 @@ function HandleResponse(response)
     table_string += "</tr>";
   }
   
-  table_string += "</table><table><tr><td>" + (game_data.length) + " game" + (game_data.length==1 ? "" : "s") + " in progress</td><td id='timer'>Timer</td></tr></table>";
+  table_string += "</table><table><tr><td>" + (game_data.length) + " game" + (game_data.length==1 ? "" : "s") + " in progress</td><td id='timer'><span class='blue'>====================</span><span class='purple'>-</span><span class='grey'>---</span></td></tr></table>";
   
   document.getElementById('ajax-response').innerHTML = table_string;
 }

@@ -6,9 +6,19 @@ table {
     width:100%;
 }
 
+#ajax-response {
+    font-family: "courier new";
+    text-align: left;
+    font-size: 12px;
+}
+
 #data-table {
     background-color: black;
     color: rgb(180,180,180);
+}
+
+#data-table tr:hover a {
+    color: white !important;
 }
 
 body {
@@ -46,11 +56,24 @@ a:visited {
     text-decoration: underline;
 }
 
-.gamecount,
-.timer {
-    background: transparent !important;
-}
-
 #timer {
     text-align: right;
+}
+
+.blue {
+    color: rgb(85,85,255);
+}
+
+.purple {
+    color: rgb(187,0,187);
+}
+
+.grey {
+    color: rgb(85,85,85);
+}
+
+.sort,
+th:hover {
+    background-color: rgb(180,180,180);
+    color: black;
 }
