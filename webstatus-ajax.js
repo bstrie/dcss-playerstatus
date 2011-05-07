@@ -1,6 +1,6 @@
 function MakeRequest()
 {
-  if(splash_screen)
+  if(splash_screen == true)
   {
     document.getElementById("ajax-response").innerHTML = "Loading games...";
     splash_screen = false;
@@ -115,7 +115,7 @@ function SortData()
   
   game_data = sorted_games;
   
-  if(sort_reversed)
+  if(sort_reversed == true)
   {
     game_data = game_data.reverse();
   }
@@ -221,7 +221,15 @@ function SortCategories(new_category)
 {
   if(sort_category == new_category)
   {
-    sort_reversed = true;
+    if(sort_reversed)
+    {
+      sort_reversed = false;
+    }
+    else
+    {
+      sort_reversed = true;
+    }
+    
     game_data = game_data.reverse();
     CreateTable();
   }
