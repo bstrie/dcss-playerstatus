@@ -1,6 +1,16 @@
 function MakeRequest()
 {
-  document.getElementById('ajax-response').innerHTML = "Loading games...";
+  if(splash_screen)
+  {
+    document.getElementById("ajax-response").innerHTML = "Loading games...";
+    splash_screen = false;
+  }
+  else
+  {
+    document.getElementById("players").innerHTML = "Loading games...";
+  }
+  
+  countdown_timer = 24;
   
   var xmlHttp = getXMLHttp();
  
@@ -62,6 +72,8 @@ function HandleResponse(response)
   }
   
   SortData();
+  
+  var t = setTimeout("Countdown()",3000);
 }
 
 function ParseXL(raw_xl)
@@ -102,6 +114,11 @@ function SortData()
   }
   
   game_data = sorted_games;
+  
+  if(sort_reversed)
+  {
+    game_data = game_data.reverse();
+  }
   
   //document.getElementById('debug').innerHTML = sorted_games[0].Player;
   
@@ -147,11 +164,11 @@ function CreateTable()
   {
     if(i == sort_category)
     {
-      table_string += "<th class='sort'><a target='_self' href='javascript:SortCategories(\"" + i + "\")'>" + i + "</a></td>";
+      table_string += "<th onmousedown='return false;' onselectstart='return false;' class='sort' onclick='SortCategories(\"" + i + "\")'>" + i + "</td>";
     }
     else
     {
-      table_string += "<th><a target='_self' href='javascript:SortCategories(\"" + i + "\")'>" + i + "</a></td>";
+      table_string += "<th onmousedown='return false;' onselectstart='return false;' onclick='SortCategories(\"" + i + "\")'>" + i + "</td>";
     }
   }
   
@@ -193,20 +210,24 @@ function CreateTable()
     table_string += "</tr>";
   }
   
-  table_string += "</table><table><tr><td>" + (game_data.length) + " game" + (game_data.length==1 ? "" : "s") + " in progress</td><td id='timer'><span class='blue'>====================</span><span class='purple'>-</span><span class='grey'>---</span></td></tr></table>";
+  table_string += "</table><table><tr><td id='players'>" + (game_data.length) + " game" + (game_data.length==1 ? "" : "s") + " in progress</td><td id='timer'></td></tr></table>";
   
   document.getElementById('ajax-response').innerHTML = table_string;
+  
+  DrawCountdownTimer();
 }
 
 function SortCategories(new_category)
 {
   if(sort_category == new_category)
   {
+    sort_reversed = true;
     game_data = game_data.reverse();
     CreateTable();
   }
   else
   {
+    sort_reversed = false;
     sort_category = new_category;
     SortData();
   }
@@ -226,4 +247,98 @@ function convertIdle(seconds)
   }
   
   return idle_string;
+}
+
+function DrawCountdownTimer()
+{
+  var timer_string = "<span class='blue'>";
+  
+  for(i = 0; i < countdown_timer; i+=2)
+  {
+    timer_string += "==";
+  }
+  
+  timer_string += "</span>";
+  
+  if(countdown_timer <= 22)
+  {
+    timer_string += "<span class='purple'>--</span>";
+  }
+  
+  if(countdown_timer <= 20)
+  {
+    timer_string += "<span class='grey'>";
+  
+    for(i = countdown_timer; i < 22; i+=2)
+    {
+      timer_string += "--";
+    }
+    
+    timer_string += "</span>";
+  }
+  
+  // switch(countdown_timer)
+  // {
+  // case 24:
+    // timer_string = "<span class='blue'>========================</span>";
+    // break;
+  // case 22:
+    // timer_string = "<span class='blue'>======================</span><span class='purple'>--</span>";
+    // break;
+  // case 20:
+    // timer_string = "<span class='blue'>====================</span><span class='purple'>--</span><span class='grey'>--</span>";
+    // break;
+  // case 18:
+    // timer_string = "<span class='blue'>==================</span><span class='purple'>--</span><span class='grey'>----</span>";
+  // case 16:
+    // timer_string = "<span class='blue'>================</span><span class='purple'>--</span><span class='grey'>------</span>";
+    // break;
+  // case 14:
+    // timer_string = "<span class='blue'>==============</span><span class='purple'>--</span><span class='grey'>--------</span>";
+    // break;
+  // case 12:
+    // timer_string = "<span class='blue'>============</span><span class='purple'>--</span><span class='grey'>----------</span>";
+    // break;
+  // case 10:
+    // timer_string = "<span class='blue'>==========</span><span class='purple'>--</span><span class='grey'>------------</span>";
+    // break;
+  // case 8:
+    // timer_string = "<span class='blue'>========</span><span class='purple'>--</span><span class='grey'>--------------</span>";
+    // break;
+  // case 6:
+    // timer_string = "<span class='blue'>======</span><span class='purple'>--</span><span class='grey'>----------------</span>";
+    // break;
+  // case 4:
+    // timer_string = "<span class='blue'>====</span><span class='purple'>--</span><span class='grey'>------------------</span>";
+    // break;
+  // case 2:
+    // timer_string = "<span class='blue'>==</span><span class='purple'>--</span><span class='grey'>--------------------</span>";
+    // break;
+  // case 0:
+    // timer_string = "<span class='purple'>--</span><span class='grey'>----------------------</span>";
+    // break;
+  // default:
+    // break;
+  // }
+
+  document.getElementById('timer').innerHTML = timer_string;
+}
+
+function Countdown()
+{
+  if(countdown_timer > 0)
+  {
+    countdown_timer -= 2;
+    DrawCountdownTimer();
+    var t = setTimeout("Countdown()",3000);
+  }
+  else
+  {
+    MakeRequest();
+  }
+}
+
+function debug(message)
+{
+  document.getElementById('debug').innerHTML = message;
 }
