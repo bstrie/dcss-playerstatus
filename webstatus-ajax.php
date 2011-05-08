@@ -1,5 +1,25 @@
 <?php
-$url="http://crawl.develz.org/cgi-bin/dgl-status/index.html";
+$data = FetchData("http://crawl.develz.org/cgi-bin/dgl-status/index.html");
+$data = str_replace("\n", "CDO-DGL|", $data);
+
+$data = $data . FetchData("http://crawl.develz.org/cgi-bin/web-status/index.html");
+$data = str_replace("\n", "CDO-Web|", $data);
+
+$data = str_replace(", ", "#", $data);
+$data = str_replace("  ", " ", $data);
+$data = str_replace(" ", "#", $data);
+$data = str_replace("##", "####", $data);
+$data = str_replace("#Shoals:", "#Shoal:", $data);
+$data = str_replace("#dcss-web-", "#", $data);
+$data = str_replace("#dcss-", "#", $data);
+$data = str_replace("#Crawl-", "#", $data);
+$data = str_replace("#svn", "#git", $data);
+
+echo substr($data,0,strlen($data)-1);
+
+function FetchData($url)
+{
+$ret = "";
 $crl = curl_init();
 $timeout = 5;
 curl_setopt ($crl, CURLOPT_URL,$url);
@@ -8,11 +28,6 @@ curl_setopt ($crl, CURLOPT_CONNECTTIMEOUT, $timeout);
 $ret = curl_exec($crl);
 curl_close($crl);
 
-$ret = str_replace("\n", "CDO|", $ret);
-$ret = str_replace(", ", "#", $ret);
-$ret = str_replace("  ", " ", $ret);
-$ret = str_replace(" ", "#", $ret);
-$ret = str_replace("##", "####", $ret);
-
-echo substr($ret,0,strlen($ret)-1);
+return $ret;
+}
 ?>

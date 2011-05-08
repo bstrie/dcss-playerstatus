@@ -1,22 +1,16 @@
 function MakeRequest()
 {
-  if(splash_screen == true)
+  if(splash_screen)
   {
     document.getElementById("ajax-response").innerHTML = "Loading games...";
-    splash_screen = false;
+    splash_screen = 0;
   }
   else
   {
     document.getElementById("players").innerHTML = "Loading games...";
   }
-  
-  if(timer_is_on)
-  {
-    clearTimeout(t);
-  }
 
-  game_data = [{Player: "None", Version: "None", XL: "None", Char: "None", Place: "None", Term: "None", Idle: "None", View: "None", Server: "None"}];
-  countdown_timer = 24;
+  game_data = [{Player: "-", Version: "-", XL: "-", Char: "-", Place: "-", Term: "-", Idle: "-", View: "-", Server: "-"}];
   
   var xmlHttp = getXMLHttp();
  
@@ -122,7 +116,7 @@ function SortData()
   
   game_data = sorted_games;
   
-  if(sort_reversed == true)
+  if(sort_reversed)
   {
     game_data = game_data.reverse();
   }
@@ -217,7 +211,7 @@ function CreateTable()
     table_string += "</tr>";
   }
   
-  table_string += "</table><table><tr><td id='players' width=100%>" + (game_data.length) + " game" + (game_data.length==1 ? "" : "s") + " in progress</td><td id='timer' onclick='MakeRequest()'></td></tr></table>";
+  table_string += "</table><table><tr onclick='ReloadTable()' onmousedown='return false;' onselectstart='return false;'><td id='players'>" + (game_data.length) + " game" + (game_data.length==1 ? "" : "s") + " in progress</td><td id='timer'></td></tr></table>";
   
   document.getElementById('ajax-response').innerHTML = table_string;
   
@@ -230,11 +224,11 @@ function SortCategories(new_category)
   {
     if(sort_reversed)
     {
-      sort_reversed = false;
+      sort_reversed = 0;
     }
     else
     {
-      sort_reversed = true;
+      sort_reversed = 1;
     }
     
     game_data = game_data.reverse();
@@ -242,7 +236,7 @@ function SortCategories(new_category)
   }
   else
   {
-    sort_reversed = false;
+    sort_reversed = 0;
     sort_category = new_category;
     SortData();
   }
@@ -254,11 +248,31 @@ function convertIdle(seconds)
   
   if(seconds < 60)
   {
-    idle_string = seconds + "s";
+    if(seconds < 10)
+    {
+      idle_string = "00:0" + seconds;
+    }
+    else
+    {
+      idle_string = "00:" + seconds;
+    }
   }
   else
   {
-    idle_string = Math.floor(seconds / 60) + "m " + (seconds % 60) + "s";
+    minutes = Math.floor(seconds/60);
+    seconds = seconds % 60;
+    
+    if(seconds < 10)
+    {
+      seconds = "0" + seconds;
+    }
+    
+    if(minutes < 10)
+    {
+      minutes = "0" + minutes;
+    }
+  
+    idle_string = minutes + ":" + seconds;
   }
   
   return idle_string;
@@ -352,11 +366,23 @@ function Countdown()
   }
   else
   {
-    MakeRequest();
+    ReloadTable();
   }
 }
 
 function debug(message)
 {
   document.getElementById('debug').innerHTML = message;
+}
+
+function ReloadTable()
+{
+  countdown_timer = 24;
+  
+  if(timer_is_on)
+  {
+    clearTimeout(t);
+  }
+  
+  MakeRequest();
 }
