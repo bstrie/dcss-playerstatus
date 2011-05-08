@@ -10,7 +10,7 @@ function MakeRequest()
     document.getElementById("players").innerHTML = "Loading games...";
   }
 
-  game_data = [{Player: "-", Version: "-", XL: "-", Char: "-", Place: "-", Term: "-", Idle: "-", View: "-", Server: "-"}];
+  game_data = [{Player: "-", Version: "-", XL: "-", Char: "-", Place: "-", Term: "-", Idle: "-", Viewers: "-", Server: "-"}];
   
   var xmlHttp = getXMLHttp();
  
@@ -68,7 +68,7 @@ function HandleResponse(response)
   for(i = 0; i < (split_response.length); i++)
   {
     game = split_response[i].split("#");
-    game_data[i]={Player: game[0], Version: game[1], XL: ParseXL(game[2]), Char: game[3], Place: game[4], Term: game[5], Idle: game[6], View: game[7], Server: game[8]};
+    game_data[i]={Player: game[0], Version: game[1], XL: ParseXL(game[2]), Char: game[3], Place: game[4], Term: game[5], Idle: game[6], Viewers: game[7], Server: game[8]};
   }
   
   SortData();
@@ -167,7 +167,7 @@ function CreateTable()
     {
       table_string += "<th onmousedown='return false;' onselectstart='return false;' class='sort' onclick='SortCategories(\"" + i + "\")'>" + i + "</td>";
     }
-    else
+    else if(!(i == "Term"))
     {
       table_string += "<th onmousedown='return false;' onselectstart='return false;' onclick='SortCategories(\"" + i + "\")'>" + i + "</td>";
     }
@@ -200,11 +200,15 @@ function CreateTable()
       }
       else if(j == "Idle")
       {
-        table_string += "<td>" + convertIdle(game[j]).link("http://crawl.akrasiac.org/scoring/players/" + player_name.toLowerCase() + ".html") + "</td>";
+        table_string += "<td>" + convertIdle(game[j]) + "</td>";
       }
-      else
+      else if(j == "Viewers" && game["Server"] == "CDO-Web")
       {
-        table_string += "<td>" + game[j].link("http://crawl.akrasiac.org/scoring/players/" + player_name.toLowerCase() + ".html") + "</td>";
+        table_string += "<td>" + game[j] + " (" + "Watch".link("https://tiles.crawl.develz.org/#watch-" + player_name.toLowerCase()) + ")</td>";
+      }
+      else if(!(j == "Term"))
+      {
+        table_string += "<td>" + game[j] + "</td>";
       }
     }
     

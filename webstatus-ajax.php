@@ -14,6 +14,8 @@ $data = str_replace("#dcss-web-", "#", $data);
 $data = str_replace("#dcss-", "#", $data);
 $data = str_replace("#Crawl-", "#", $data);
 $data = str_replace("#svn", "#git", $data);
+$data = str_replace("#spr-0.8", "#0.8-spr", $data);
+$data = str_replace("#zd-0.8", "#0.8-zd", $data);
 
 echo substr($data,0,strlen($data)-1);
 

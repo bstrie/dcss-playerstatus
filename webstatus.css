@@ -22,9 +22,16 @@ table {
     color: rgb(180,180,180);
 }
 
+tr.norm:hover td,
+tr.alt:hover td,
 tr.norm:hover td a,
 tr.alt:hover td a {
     color: white !important;
+}
+
+tr.norm:hover td a,
+tr.alt:hover td a {
+    text-decoration:underline;
 }
 
 body {
