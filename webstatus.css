@@ -18,7 +18,7 @@ table {
 }
 
 #data-table {
-    background-color: rgb(20,20,20);
+    background-color: black;
     color: rgb(180,180,180);
 }
 
@@ -45,6 +45,10 @@ th,
 th a {
     background-color: rgb(180,180,180);
     color: black !important;
+}
+
+tr.norm td {
+    background-color: rgb(20,20,20);
 }
 
 tr.alt td {

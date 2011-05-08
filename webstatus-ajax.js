@@ -10,6 +10,12 @@ function MakeRequest()
     document.getElementById("players").innerHTML = "Loading games...";
   }
   
+  if(timer_is_on)
+  {
+    clearTimeout(t);
+  }
+
+  game_data = [{Player: "None", Version: "None", XL: "None", Char: "None", Place: "None", Term: "None", Idle: "None", View: "None", Server: "None"}];
   countdown_timer = 24;
   
   var xmlHttp = getXMLHttp();
@@ -73,7 +79,8 @@ function HandleResponse(response)
   
   SortData();
   
-  var t = setTimeout("Countdown()",3000);
+  t = setTimeout("Countdown()",3000);
+  timer_is_on = 1;
 }
 
 function ParseXL(raw_xl)
@@ -210,7 +217,7 @@ function CreateTable()
     table_string += "</tr>";
   }
   
-  table_string += "</table><table><tr><td id='players'>" + (game_data.length) + " game" + (game_data.length==1 ? "" : "s") + " in progress</td><td id='timer'></td></tr></table>";
+  table_string += "</table><table><tr><td id='players' width=100%>" + (game_data.length) + " game" + (game_data.length==1 ? "" : "s") + " in progress</td><td id='timer' onclick='MakeRequest()'></td></tr></table>";
   
   document.getElementById('ajax-response').innerHTML = table_string;
   
@@ -334,11 +341,14 @@ function DrawCountdownTimer()
 
 function Countdown()
 {
+  timer_is_on = 0;
+
   if(countdown_timer > 0)
   {
     countdown_timer -= 2;
     DrawCountdownTimer();
-    var t = setTimeout("Countdown()",3000);
+    t = setTimeout("Countdown()",3000);
+    timer_is_on = 1;
   }
   else
   {
