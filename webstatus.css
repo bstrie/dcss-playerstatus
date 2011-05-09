@@ -46,6 +46,8 @@ td {
 th {
     font-weight: normal;
     color: black;
+    text-align: left;
+    cursor: pointer;
 }
 
 th,

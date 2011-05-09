@@ -12,7 +12,7 @@ function MakeRequest()
 
   game_data = [{Player: "-", Version: "-", XL: "-", Char: "-", Place: "-", Term: "-", Idle: "-", Viewers: "-", Server: "-"}];
   
-  var xmlHttp = getXMLHttp();
+  xmlHttp = getXMLHttp();
  
   xmlHttp.onreadystatechange = function()
   {
@@ -157,7 +157,7 @@ function FudgeNumbers(value)
 
 function CreateTable()
 {
-  var table_string = "<table id='data-table'><tr class='headrow'>";
+  var table_string = "<table id='data-table'><tr id='headrow' class='headrow'>";
   
   game = game_data[0];
   
@@ -165,7 +165,7 @@ function CreateTable()
   {
     if(i == sort_category)
     {
-      table_string += "<th onmousedown='return false;' onselectstart='return false;' class='sort' onclick='SortCategories(\"" + i + "\")'>" + i + "</td>";
+      table_string += "<th onmousedown='return false;' onselectstart='return false;' class='sort' onclick='SortCategories(\"" + i + "\");'>" + i + "</td>";
     }
     else if(!(i == "Term"))
     {
@@ -215,7 +215,7 @@ function CreateTable()
     table_string += "</tr>";
   }
   
-  table_string += "</table><table><tr onclick='ReloadTable()' onmousedown='return false;' onselectstart='return false;'><td id='players'>" + (game_data.length) + " game" + (game_data.length==1 ? "" : "s") + " in progress</td><td id='timer'></td></tr></table>";
+  table_string += "</table><table><tr onclick='ReloadTable();' onmousedown='return false;' onselectstart='return false;'><td id='players'>" + (game_data.length) + " game" + (game_data.length==1 ? "" : "s") + " in progress</td><td id='timer'></td></tr></table>";
   
   document.getElementById('ajax-response').innerHTML = table_string;
   
@@ -248,6 +248,11 @@ function SortCategories(new_category)
 
 function convertIdle(seconds)
 {
+  if(seconds == "-")
+  {
+    return "-";
+  }
+
   var idle_string = "";
   
   if(seconds < 60)
@@ -377,6 +382,12 @@ function Countdown()
 function debug(message)
 {
   document.getElementById('debug').innerHTML = message;
+}
+
+function debugDate()
+{
+  var d = new Date();
+  document.getElementById('debug').innerHTML = d;
 }
 
 function ReloadTable()
