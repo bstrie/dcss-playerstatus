@@ -14,7 +14,7 @@ function MakeRequest()
   }
 
   // reset the array that holds all the table data
-  game_data = [{Player: "-", Version: "-", XL: "-", Char: "-", Place: "-", Term: "-", Idle: "-", Viewers: "-", Server: "-"}];
+  game_data = [{Player: "Yredelemnul", Version: "4.1", XL: "28", Char: "OMTh", Place: "Zot:27", Term: " ", Idle: "0", Viewers: "2", Server: "DCO"}];
   
   /* begin ajax shenanigans */
   xmlHttp = getXMLHttp();
@@ -185,21 +185,13 @@ function FudgeNumbers(value)
 function CreateTable()
 {
   // "data-table" is what is overwritten when the countdown timer elapses
-  var table_string = "<table id='data-table'><tr>";
+  var table_string = "<table id='container-table'><tr><td colspan=2><table id='data-table'><tr>";
   
   // get the names of the categories, defined as object properties
   game = game_data[0]; 
   
   for(i in game)
-  {
-    var padded_name = i;
-    
-    if(i == "Place")
-    {
-      // max length of the Place column is 7, except maybe for portal vaults
-      padded_name = i + "&nbsp;&nbsp;";
-    }
-    
+  {    
     if(i == sort_category) // visual cue for the current sort category
     {
       table_string += "<th class='sort' onmousedown='return false;' onselectstart='return false;' onclick='SortCategories(\"" + i + "\")'>" + i + "</th>";
@@ -264,7 +256,7 @@ function CreateTable()
   // clicking this lower table reloads the upper table
   // two fields: "players" shows the number of games being played,
   // "timer" shows the countdown timer
-  table_string += "</table><table id='status-table'><tr onclick='ReloadTable();' onmousedown='return false;' onselectstart='return false;'><td id='players'>" + (game_data.length) + " game" + (game_data.length==1 ? "" : "s") + " in progress</td><td id='timer'></td></tr></table>";
+  table_string += "</table></td></tr><tr id='status-row' onclick='ReloadTable();' onmousedown='return false;' onselectstart='return false;'><td id='players'>" + (game_data.length) + " game" + (game_data.length==1 ? "" : "s") + " in progress</td><td id='timer'></td></tr></table>";
   
   // push the defined table to the page
   document.getElementById('ajax-response').innerHTML = table_string;
@@ -299,11 +291,6 @@ function SortCategories(new_category)
 
 function convertIdle(seconds)
 {
-  if(seconds == "-")
-  {
-    return "-";
-  }
-
   var idle_string = "";
   
   if(seconds < 60)
