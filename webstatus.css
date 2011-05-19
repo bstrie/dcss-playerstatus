@@ -1,27 +1,30 @@
+/* declares the custom font */
 @font-face {
   font-family: 'VeraMono';
   src: url('VeraMono.ttf');
 }
 
+/* declares the properties of all tables on the page
+   the two tables are the data table (top) and the status table (below) */
 table {
     margin:auto;
-    font-family: "VeraMono", "courier new";
-    text-align: left;
-    font-size: 12px;
-    width:100%;
 }
 
+/* the properties of the div that holds the tables */
 #ajax-response {
     font-family: "VeraMono", "courier new";
     text-align: left;
     font-size: 12px;
 }
 
+/* make the data table black with light gray text */
 #data-table {
     background-color: black;
     color: rgb(180,180,180);
 }
 
+/* tr.norm are even table rows, tr.alt are odd ones
+   on mouseover, both have white text for both normal text and links */
 tr.norm:hover td,
 tr.alt:hover td,
 tr.norm:hover td a,
@@ -29,82 +32,92 @@ tr.alt:hover td a {
     color: white !important;
 }
 
+/* links in the table data are without decoration unless their row is hovered */
 tr.norm:hover td a,
 tr.alt:hover td a {
     text-decoration:underline;
 }
 
+/* make color transparent so that CDO wordpress background shows through */
 body {
 	background: transparent !important;
 }
 
+/* padding widths for all table cells
+   3px top and bottom, 5px left and right */
 th,
 td {
     padding: 3px 5px;
 }
 
+/* th are table header cells
+   differ from td by having gray background with black text, changed cursor */
 th {
     font-weight: normal;
     color: black;
     text-align: left;
     cursor: pointer;
-}
-
-th,
-th a {
     background-color: rgb(180,180,180);
-    color: black !important;
 }
 
+/* even table rows have a darker black */
 tr.norm td {
-    background-color: rgb(20,20,20);
+    background-color: rgb(15,15,15);
 }
 
+/* odd table rows have a lighter black */
 tr.alt td {
-    background-color: rgb(40,40,40);
+    background-color: rgb(30,30,30);
 }
 
+/* both types of table rows are light on hover */
 tr.alt:hover td,
 tr.norm:hover td {
-    background-color: rgb(60,60,60) !important;
+    background-color: rgb(45,45,45) !important;
 }
 
+/* links are normally undecorated and white */
 a:link,
 a:visited {
     text-decoration: none;
     color: rgb(192,192,192);
 }
 
+/* the div with the countdown-to-refresh timer, aligned right */
 #timer {
     text-align: right;
 }
 
+/* used in the countdown timer */
 .blue {
     color: rgb(85,85,255);
 }
 
+/* same */
 .purple {
     color: rgb(187,0,187);
 }
 
+/* same */
 .grey {
     color: rgb(85,85,85);
 }
 
+/* .sort is the class of the column that is currently dictating the sort order
+   give it a lighter grey background */
 .sort,
 .sort a {
     background-color: rgb(220,220,220);
-    color: black;
 }
 
+/* on hover, the sort column header is lighter yet */
 .sort:hover,
 .sort:hover a {
     background-color: rgb(240,240,240);
-    color: black !important;
 }
 
+/* all headers are lighter upon mouseover */
 th:hover, 
 th:hover a {
     background-color: rgb(200,200,200);
-    color: black !important;
 }
