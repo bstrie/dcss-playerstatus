@@ -31,11 +31,13 @@ table {
 
 /* tr.norm are even table rows, tr.alt are odd ones
    on mouseover, both have white text for both normal text and links */
-tr.norm:hover td,
-tr.alt:hover td,
-tr.norm:hover td a,
-tr.alt:hover td a {
-    color: white !important;
+tr.norm:hover,
+tr.alt:hover,
+tr.norm:hover a:link,
+tr.norm:hover a:visited,
+tr.alt:hover a:link,
+tr.alt:hover a:visited {
+    color: white;
     -moz-transition-property: color;
     -moz-transition-duration: 0.5s;
 }
@@ -67,7 +69,8 @@ th {
     cursor: pointer;
     background-color: rgb(180,180,180);
     -moz-transition-property: background-color;
-    -moz-transition-duration: 0.5s;
+    -moz-transition-duration: 0.4s;
+    -moz-transition-timing-function: ease-in;
 }
 
 /* even table rows have a darker black */
@@ -89,15 +92,15 @@ tr.alt:hover td,
 tr.norm:hover td {
     background-color: rgb(45,45,45) !important;
     -moz-transition-property: background-color;
-    -moz-transition-duration: 0.5s;
-    -moz-transition-delay: 0.5s;
+    -moz-transition-duration: 0.8s;
+    -moz-transition-timing-function: ease-in;
 }
 
 /* links are normally undecorated and white */
 a:link,
 a:visited {
     text-decoration: none;
-    color: rgb(192,192,192);
+    color: rgb(180,180,180);
 }
 
 #status-row:hover {
