@@ -1,4 +1,29 @@
-// maybe remove Term category entirely, cut down on bandwidth and array size
+// TODO: maybe remove Term category entirely, cut down on bandwidth and array size
+
+// TODO: constantize true/false values
+function InitGlobals()
+{
+  // constants
+  window.FIELD_SEPARATOR = "#"; // separates fields within player entries
+  window.ENTRY_SEPARATOR = "|"; // separates player entries
+  window.COUNTDOWN_INTERVAL = 3000; // delay between timer updates
+  window.TIMER_LENGTH = 24; // the number of characters in the timer
+  window.TIMER_QUANTUM = 2; // number of chars in the timer that change with each update
+  window.CAO_PLAYER_URL = "http://crawl.akrasiac.org/scoring/players/"; // generates link to player page
+  window.WEBTILES_SERVER_NAME = "CDO/Web"; // determines if a game is watchable
+  window.WEBTILES_URL = "https://tiles.crawl.develz.org/#watch-"; // generates link to watch webtiles games
+  
+  // control variables
+  window.game_data = new Array(); // stores table data
+  window.sort_category = "Player"; // default sorting column
+  window.countdown_timer = TIMER_LENGTH; // initial length of countdown timer
+  window.splash_screen = 1; // determines where to write "Loading games..."
+  window.sort_reversed = 0; // whether the sorting column is sorted in reverse
+  window.t; // the timer object
+  window.timer_is_on = 0; // determines whether the timer is active
+  
+  MakeRequest();
+}
 
 function MakeRequest()
 {
@@ -71,14 +96,14 @@ function HandleResponse(response) // response is the string returned by ajax/php
   //debug(response); // uncomment this to see the raw php output
 
   var split_response = new Array();
-  split_response = response.split("|"); // "|" denotes divisions between entries
+  split_response = response.split(ENTRY_SEPARATOR); // "|" denotes divisions between entries
   
   var game; // holds all data for a single game
   
   // populate the table data array
   for(i = 0; i < (split_response.length); i++)
   {
-    game = split_response[i].split("#"); // "#" denotes divisions between fields
+    game = split_response[i].split(FIELD_SEPARATOR); // "#" denotes divisions between fields
     // game object has the following properties: Player (player name), XL
     // (experience level), Char (character combo), Place (place in the dungeon),
     // Term (terminal size), Idle (idle time), Viewers (number of viewers),
@@ -88,7 +113,7 @@ function HandleResponse(response) // response is the string returned by ajax/php
   
   SortData(); // put the data in order according to sort_category
   
-  t = setTimeout("Countdown()",3000); // begin the countdown-to-refresh timer
+  t = setTimeout("Countdown()", COUNTDOWN_INTERVAL); // begin the countdown-to-refresh timer
   timer_is_on = 1; // note that the timer is running
 }
 
@@ -108,6 +133,7 @@ function ParseXL(raw_xl)
 
 // put the data in order according to the global variable sort_category
 // ugh, it's so hacky and slow, gotta redo this at some point
+// TODO: maybe generate sort strings once and then persist them
 function SortData()
 {
   var sort_keys = new Array();
@@ -123,7 +149,7 @@ function SortData()
     // are used as a fallback sort for when the sort category returns a match
     // the player name, version, and server form the unique key
     // the 4 denotes the position in the original unsorted array
-    key = FudgeNumbers(game[sort_category]) + "#" + game["Player"] + "#" + game["Version"] + "#" + game["Server"] + "|" + i;
+    key = FudgeNumbers(game[sort_category]) + FIELD_SEPARATOR + game["Player"] + FIELD_SEPARATOR + game["Version"] + FIELD_SEPARATOR + game["Server"] + ENTRY_SEPARATOR + i;
     
     // put all the keys in an array
     sort_keys[i] = key.toLowerCase(); // sorting is case-sensitive
@@ -139,7 +165,7 @@ function SortData()
   for(i = 0; i < (sort_keys.length); i++) // loop for each key
   {
     // retrieve the location of the current element in the unsorted array
-    index = sort_keys[i].split("|")[1];
+    index = sort_keys[i].split(ENTRY_SEPARATOR)[1];
     sorted_games[i] = game_data[index]; // move the element
   }
   
@@ -235,7 +261,7 @@ function CreateTable()
       {
         player_name = game[j];
         // link to their CAO scoring page
-        table_string += "<td>" + player_name.link("http://crawl.akrasiac.org/scoring/players/" + player_name.toLowerCase() + ".html") + "</td>";
+        table_string += "<td>" + player_name.link(CAO_PLAYER_URL + player_name.toLowerCase() + ".html") + "</td>";
       }
       // the idle string is stored as seconds, we want to put it in ##:## format
       else if(j == "Idle")
@@ -243,9 +269,9 @@ function CreateTable()
         table_string += "<td>" + convertIdle(game[j]) + "</td>";
       }
       // if playing webtiles, we want to add a link to watch the game
-      else if(j == "Viewers" && game["Server"] == "CDO/Web")
+      else if(j == "Viewers" && game["Server"] == WEBTILES_SERVER_NAME)
       {
-        table_string += "<td>" + game[j] + " (" + "Watch".link("https://tiles.crawl.develz.org/#watch-" + player_name.toLowerCase()) + ")</td>";
+        table_string += "<td>" + game[j] + " (" + "Watch".link(WEBTILES_URL + player_name.toLowerCase()) + ")</td>";
       }
       // we don't want to see the term column
       else if(!(j == "Term"))
@@ -336,30 +362,36 @@ function convertIdle(seconds)
   return idle_string;
 }
 
-// redrawn every
+// redrawn every COUNTDOWN_INTERVAL ms
 function DrawCountdownTimer()
 {
   var timer_string = "<span class='blue'>";
   
-  for(i = 0; i < countdown_timer; i+=2)
+  for(i = 0; i < countdown_timer; i+=TIMER_QUANTUM)
   {
-    timer_string += "==";
+    for(j = 0; j < TIMER_QUANTUM; j++)
+    {
+      timer_string += "=";
+    }
   }
   
   timer_string += "</span>";
   
-  if(countdown_timer <= 22)
+  if(countdown_timer <= TIMER_LENGTH - TIMER_QUANTUM)
   {
     timer_string += "<span class='purple'>--</span>";
   }
   
-  if(countdown_timer <= 20)
+  if(countdown_timer <= TIMER_LENGTH - (TIMER_QUANTUM * 2))
   {
     timer_string += "<span class='grey'>";
   
-    for(i = countdown_timer; i < 22; i+=2)
+    for(i = countdown_timer; i < TIMER_LENGTH - TIMER_QUANTUM; i+=TIMER_QUANTUM)
     {
-      timer_string += "--";
+      for(j = 0; j < TIMER_QUANTUM; j++)
+      {
+        timer_string += "-";
+      }
     }
     
     timer_string += "</span>";
@@ -374,9 +406,9 @@ function Countdown()
 
   if(countdown_timer > 0)
   {
-    countdown_timer -= 2;
+    countdown_timer -= TIMER_QUANTUM;
     DrawCountdownTimer();
-    t = setTimeout("Countdown()",3000);
+    t = setTimeout("Countdown()", COUNTDOWN_INTERVAL);
     timer_is_on = 1;
   }
   else
@@ -398,7 +430,7 @@ function debugDate()
 
 function ReloadTable()
 {
-  countdown_timer = 24;
+  countdown_timer = TIMER_LENGTH;
   
   if(timer_is_on)
   {

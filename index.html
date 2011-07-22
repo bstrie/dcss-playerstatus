@@ -5,22 +5,13 @@
     <title>DCSS Online Player Status</title>
     <link rel="stylesheet" type="text/css" href="webstatus.css" />
     <script type="text/javascript" src="webstatus-ajax.js"></script>
-    <script type="text/javascript">
-      var game_data = new Array(); // stores table data
-      var sort_category = "Player"; // default sorting column
-      var countdown_timer = 24; // initial length of countdown timer
-      var splash_screen = 1; // determines where to write "Loading games..."
-      var sort_reversed = 0; // whether the sorting column is sorted in reverse
-      var t; // the timer object
-      var timer_is_on = 0; // determines whether the timer is active
-    </script>
     <base target="_blank" />
   </head>
   <body>
     <div id="ajax-response">Initializing javascript...</div>
     <div id="debug"><!-- Output from the debug() function goes here --></div>
     <script type="text/javascript">
-      MakeRequest(); // initiate the javascript
+      InitGlobals(); // initiate the javascript
     </script>
   </body>
 </html>
