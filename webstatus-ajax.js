@@ -1,3 +1,5 @@
+// maybe remove Term category entirely, cut down on bandwidth and array size
+
 function MakeRequest()
 {
   // determines whether to show "Loading games..." in the table area or below
@@ -13,7 +15,7 @@ function MakeRequest()
     document.getElementById("players").innerHTML = "Loading games...";
   }
 
-  // reset the array that holds all the table data
+  // zero the array that holds all the table data
   game_data = [{Player: "Yredelemnul", Version: "4.1", XL: "28", Char: "OMTh", Place: "Zot:27", Term: " ", Idle: "0", Viewers: "2", Server: "DCO"}];
   
   /* begin ajax shenanigans */
@@ -66,7 +68,7 @@ function getXMLHttp()
 
 function HandleResponse(response) // response is the string returned by ajax/php
 {
-  //debug(response); // uncomment to see the raw php output
+  //debug(response); // uncomment this to see the raw php output
 
   var split_response = new Array();
   split_response = response.split("|"); // "|" denotes divisions between entries
@@ -105,6 +107,7 @@ function ParseXL(raw_xl)
 }
 
 // put the data in order according to the global variable sort_category
+// ugh, it's so hacky and slow, gotta redo this at some point
 function SortData()
 {
   var sort_keys = new Array();
@@ -267,30 +270,36 @@ function CreateTable()
   DrawCountdownTimer();
 }
 
+// if the column to be sorted is the column that is already sorted,
+// re-sort it in the opposite order.
 function SortCategories(new_category)
 {
+  // new_category is the category the user has clicked
+  // sort_category is the caregory currently determining sort order
   if(sort_category == new_category)
   {
+    // sort_reversed is our global variable to determine the sort order
     if(sort_reversed)
     {
-      sort_reversed = 0;
+      sort_reversed = 0; // booleans are lies
     }
     else
     {
-      sort_reversed = 1;
+      sort_reversed = 1; // lies
     }
     
-    game_data = game_data.reverse();
+    game_data = game_data.reverse(); // don't need to bother re-sorting
     CreateTable();
   }
   else
   {
-    sort_reversed = 0;
+    sort_reversed = 0; // lies
     sort_category = new_category;
-    SortData();
+    SortData(); // proprietary sort method called "terrible slowsort"
   }
 }
 
+// idle time is passed as pure seconds, we want it in 00:00 format
 function convertIdle(seconds)
 {
   var idle_string = "";
@@ -327,6 +336,7 @@ function convertIdle(seconds)
   return idle_string;
 }
 
+// redrawn every
 function DrawCountdownTimer()
 {
   var timer_string = "<span class='blue'>";
