@@ -66,6 +66,8 @@ function getXMLHttp()
 
 function HandleResponse(response) // response is the string returned by ajax/php
 {
+  //debug(response); // uncomment to see the raw php output
+
   var split_response = new Array();
   split_response = response.split("|"); // "|" denotes divisions between entries
   
@@ -238,7 +240,7 @@ function CreateTable()
         table_string += "<td>" + convertIdle(game[j]) + "</td>";
       }
       // if playing webtiles, we want to add a link to watch the game
-      else if(j == "Viewers" && game["Server"] == "CDO-Web")
+      else if(j == "Viewers" && game["Server"] == "CDO/Web")
       {
         table_string += "<td>" + game[j] + " (" + "Watch".link("https://tiles.crawl.develz.org/#watch-" + player_name.toLowerCase()) + ")</td>";
       }

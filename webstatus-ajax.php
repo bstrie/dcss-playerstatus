@@ -3,8 +3,8 @@
 // first parameter is the address of the file
 // second parameter is the string identifying the source of the data
 // in the raw data, "#" separates fields and newlines separate entries
-$data = FetchData("http://crawl.develz.org/cgi-bin/dgl-status/index.html", "CDO-DGL");
-$data = $data . FetchData("http://crawl.develz.org/cgi-bin/web-status/index.html", "CDO-Web");
+$data = FetchData("http://crawl.develz.org/cgi-bin/dgl-status/index.html", "CDO/DGL");
+$data = $data . FetchData("http://crawl.develz.org/cgi-bin/web-status/index.html", "CDO/Web");
 
 /* use simple find-and-replace to make the fetched game data more parseable
    fetched data must use "#" to separate fields and "|" to separate entries */
@@ -14,15 +14,23 @@ $data = str_replace("  ", " ", $data); // for alignment, sometimes two spaces se
 $data = str_replace(" ", "#", $data); // parses the space between xl and char
 // if player is dead or starting a game, "where" field is blank
 $data = str_replace("##", "####", $data); // dummy hashes for blank "where"
+$data = str_replace("svn", "git", $data); // svn is old indicator for trunk, we're on git now
+$data = str_replace("#dcss-", "#", $data); // normal games are dcss-0.x but we don't need all that
 $data = str_replace("#Shoals:", "#Shoal:", $data); // make shoals shorter
-$data = str_replace("#dcss-web-", "#", $data); // remove CDO tile version prefix
-$data = str_replace("#dcss-", "#", $data); // remove CDO dgl version prefix
-$data = str_replace("#Crawl-", "#", $data); // remove CAO prefix
-$data = str_replace("#svn", "#git", $data); // standardize trunk version names
-$data = str_replace("#spr-0.8", "#0.8-spr", $data); // sort sprint versions
-$data = str_replace("#zd-0.8", "#0.8-zd", $data); // sort zot defense
-$data = str_replace("#tut-0.8", "#0.8-tut", $data); // sort tutorials
-$data = str_replace("#lorcs", "ero", $data); // better name for erocrawl
+
+// CDO sends us versions like "spr-0.8" but we want in the form "0.8-spr"
+//$pattern = "/#(zd)-(git)/e";
+$pattern = "/#(.{2,3})-(.{3})/"; // (.{2,3}) to match zd, spr, tut = $1
+$replacement = "#$2-$1";
+$data = preg_replace($pattern, $replacement, $data);
+
+
+// $data = str_replace("#dcss-web-", "#", $data); // remove CDO tile version prefix
+// $data = str_replace("#Crawl-", "#", $data); // remove CAO prefix
+// $data = str_replace("#spr-0.8", "#0.8-spr", $data); // sort sprint versions
+// $data = str_replace("#zd-0.8", "#0.8-zd", $data); // sort zot defense
+// $data = str_replace("#tut-0.8", "#0.8-tut", $data); // sort tutorials
+// $data = str_replace("#lorcs", "ero", $data); // better name for erocrawl
 
 echo substr($data,0,strlen($data)-1); //return the final string
 

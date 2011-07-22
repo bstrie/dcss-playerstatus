@@ -8,6 +8,7 @@
    the two tables are the data table (top) and the status table (below) */
 table {
     margin:auto;
+    width: 100%;
 }
 
 /* the properties of the div that holds the tables */
@@ -21,8 +22,10 @@ table {
 #data-table {
     background-color: black;
     color: rgb(180,180,180);
+    
+    /* change the text color back after hover */
     -moz-transition-property: color;
-    -moz-transition-duration: 0.5s;
+    -moz-transition-duration: 0.25s;
 }
 
 #data-table td {
@@ -38,8 +41,10 @@ tr.norm:hover a:visited,
 tr.alt:hover a:link,
 tr.alt:hover a:visited {
     color: white;
+    
+    /* change the row text and anchor color to white on hover */
     -moz-transition-property: color;
-    -moz-transition-duration: 0.5s;
+    -moz-transition-duration: 0.25s;
 }
 
 /* links in the table data are without decoration unless their row is hovered */
@@ -68,35 +73,43 @@ th {
     text-align: left;
     cursor: pointer;
     background-color: rgb(180,180,180);
+    
+    /* change table header background back after hover, starting off slow */
     -moz-transition-property: background-color;
-    -moz-transition-duration: 0.4s;
+    -moz-transition-duration: 0.3s;
     -moz-transition-timing-function: ease-in;
 }
 
 /* even table rows have a darker black */
 tr.norm td {
     background-color: rgb(15,15,15);
+    
+    /* change tr.norm background color back after hover */
     -moz-transition-property: background-color;
-    -moz-transition-duration: 0.5s;
+    -moz-transition-duration: 0.25s;
 }
 
 /* odd table rows have a lighter black */
 tr.alt td {
     background-color: rgb(30,30,30);
+    
+    /* change tr.alt background color back after hover */
     -moz-transition-property: background-color;
-    -moz-transition-duration: 0.5s;
+    -moz-transition-duration: 0.25s;
 }
 
 /* both types of table rows are light on hover */
 tr.alt:hover td,
 tr.norm:hover td {
     background-color: rgb(45,45,45) !important;
+    
+    /* highlight tr.norm and tr.alt rows on hover, starting off slow */
     -moz-transition-property: background-color;
-    -moz-transition-duration: 0.8s;
+    -moz-transition-duration: 0.7s;
     -moz-transition-timing-function: ease-in;
 }
 
-/* links are normally undecorated and white */
+/* links are normally undecorated */
 a:link,
 a:visited {
     text-decoration: none;
@@ -148,16 +161,11 @@ a:visited {
 .sort,
 .sort a {
     background-color: rgb(220,220,220);
+    
+    /* change back the sort header background after hover */
     -moz-transition-property: background-color;
-    -moz-transition-duration: 0.5s;
-}
-
-/* on hover, the sort column header is lighter yet */
-.sort:hover,
-.sort:hover a {
-    background-color: rgb(240,240,240);
-    -moz-transition-property: background-color;
-    -moz-transition-duration: 0.2s;
+    -moz-transition-duration: 0.3s;
+    -moz-transition-timing-function: ease-in;
 }
 
 /* all headers are lighter upon mouseover */
