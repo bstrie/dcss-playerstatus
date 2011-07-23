@@ -4,6 +4,8 @@
 function InitGlobals(offline)
 {
   // constants
+  window.ACTUALLY_FALSE = 0; // because booleans in javascript are lies
+  window.ACTUALLY_TRUE = 1;  // booleans = lies
   window.FIELD_SEPARATOR = "#"; // separates fields within player entries
   window.ENTRY_SEPARATOR = "|"; // separates player entries
   window.COUNTDOWN_INTERVAL = 3000; // delay between timer updates
@@ -18,10 +20,10 @@ function InitGlobals(offline)
   window.game_data = new Array(); // stores table data
   window.sort_category = "Player"; // default sorting column
   window.countdown_timer = TIMER_LENGTH; // initial length of countdown timer
-  window.splash_screen = 1; // determines where to write "Loading games..."
-  window.sort_reversed = 0; // whether the sorting column is sorted in reverse
+  window.splash_screen = ACTUALLY_TRUE; // determines where to write "Loading games..."
+  window.sort_reversed = ACTUALLY_FALSE; // whether the sorting column is sorted in reverse
   window.t; // the timer object
-  window.timer_is_on = 0; // determines whether the timer is active
+  window.timer_is_on = ACTUALLY_FALSE; // determines whether the timer is active
   
   MakeRequest();
 }
@@ -33,7 +35,7 @@ function MakeRequest()
   {
     // "ajax-response" is the name of the div where the table goes
     document.getElementById("ajax-response").innerHTML = "Loading games...";
-    splash_screen = 0; // don't use booleans, they are lies
+    splash_screen = ACTUALLY_FALSE; // don't use booleans, they are lies
   }
   else
   {
@@ -44,7 +46,7 @@ function MakeRequest()
   // zero the array that holds all the table data
   game_data = [{Player: "Yredelemnul", Version: "4.1", XL: "28", Char: "OMTh", Place: "Zot:27", Term: " ", Idle: "0", Viewers: "2", Server: "DCO"}];
   
-  if(is_offline == 0)
+  if(is_offline == ACTUALLY_FALSE)
   {
     /* begin ajax shenanigans */
     xmlHttp = getXMLHttp();
@@ -63,13 +65,13 @@ function MakeRequest()
   else // if is_offline is true, bypass the ajax shenanigans
   {
     var fake_response;
-    fake_response = "Tester1#0.2#03#MnOp#D:5#80x24#75#7#CDO/DGL|" +
-                    "Tester2#0.3#04#QrSt#D:6#80x24#90#1#CDO/Web|" +
-                    "Tester3#0.4#05#UvWx#D:7#80x24#0#2#CDO/DGL|" +
-                    "Tester4#0.5#06#YzAb#D:1#80x24#15#3#CDO/Web|" +
-                    "Tester5#0.6#07#AbCd#D:2#80x24#30#4#CDO/DGL|" +
-                    "Tester6#0.7#01#EfGh#D:3#80x24#45#5#CDO/Web|" +
-                    "Tester7#0.1#02#IjKl#D:4#80x24#60#6#CDO/DGL";
+    fake_response = "Tester1#0.2#03#JkL4#D:5#80x24#75#7#CDO/DGL|" +
+                    "Tester2#0.3#04#MnO5#D:6#80x24#90#1#CDO/Web|" +
+                    "Tester3#0.4#05#PqR6#D:7#80x24#0#2#CDO/DGL|" +
+                    "Tester4#0.5#06#StU7#D:1#80x24#15#3#CDO/Web|" +
+                    "Tester5#0.6#07#AbC1#D:2#80x24#30#4#CDO/DGL|" +
+                    "Tester6#0.7#01#DeF2#D:3#80x24#45#5#CDO/Web|" +
+                    "Tester7#0.1#02#GhI3#D:4#80x24#60#6#CDO/DGL";
     //pause = setTimeout("HandleResponse(fake_response)", COUNTDOWN_INTERVAL);
     HandleResponse(fake_response);
   }
@@ -132,7 +134,7 @@ function HandleResponse(response) // response is the string returned by ajax/php
   SortData(); // put the data in order according to sort_category
   
   t = setTimeout("Countdown()", COUNTDOWN_INTERVAL); // begin the countdown-to-refresh timer
-  timer_is_on = 1; // note that the timer is running
+  timer_is_on = ACTUALLY_TRUE; // note that the timer is running
 }
 
 // used to make the XL align and sort properly
@@ -325,11 +327,11 @@ function SortCategories(new_category)
     // sort_reversed is our global variable to determine the sort order
     if(sort_reversed)
     {
-      sort_reversed = 0; // booleans are lies
+      sort_reversed = ACTUALLY_FALSE; // booleans are lies
     }
     else
     {
-      sort_reversed = 1; // lies
+      sort_reversed = ACTUALLY_TRUE; // lies
     }
     
     game_data = game_data.reverse(); // don't need to bother re-sorting
@@ -337,7 +339,7 @@ function SortCategories(new_category)
   }
   else
   {
-    sort_reversed = 0; // lies
+    sort_reversed = ACTUALLY_FALSE; // lies
     sort_category = new_category;
     SortData(); // proprietary sort method called "terrible slowsort"
   }
@@ -348,6 +350,7 @@ function convertIdle(seconds)
 {
   var idle_string = "";
   
+  // if less than a minute, draw it as 00:xx or 00:0x
   if(seconds < 60)
   {
     if(seconds < 10)
@@ -380,11 +383,13 @@ function convertIdle(seconds)
   return idle_string;
 }
 
-// redrawn every COUNTDOWN_INTERVAL ms
+// timer is redrawn every COUNTDOWN_INTERVAL ms
 function DrawCountdownTimer()
 {
-  var timer_string = "<span class='blue'>";
+  var timer_string = "<span class='blue'>"; // colors text blue
   
+  // if TIMER_QUANTUM = 2, every COUNTDOWN_INTERVAL the timer will have
+  // two fewer = signs
   for(i = 0; i < countdown_timer; i+=TIMER_QUANTUM)
   {
     for(j = 0; j < TIMER_QUANTUM; j++)
@@ -420,14 +425,14 @@ function DrawCountdownTimer()
 
 function Countdown()
 {
-  timer_is_on = 0;
+  timer_is_on = ACTUALLY_FALSE;
 
   if(countdown_timer > 1)
   {
     countdown_timer -= TIMER_QUANTUM;
     DrawCountdownTimer();
     t = setTimeout("Countdown()", COUNTDOWN_INTERVAL);
-    timer_is_on = 1;
+    timer_is_on = ACTUALLY_TRUE;
   }
   else
   {
