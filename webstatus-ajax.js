@@ -1,7 +1,7 @@
 // TODO: maybe remove Term category entirely, cut down on bandwidth and array size
 
-// TODO: constantize true/false values
-function InitGlobals()
+// TODO: constantize true/false values, 0 = false
+function InitGlobals(offline)
 {
   // constants
   window.FIELD_SEPARATOR = "#"; // separates fields within player entries
@@ -14,6 +14,7 @@ function InitGlobals()
   window.WEBTILES_URL = "https://tiles.crawl.develz.org/#watch-"; // generates link to watch webtiles games
   
   // control variables
+  window.is_offline = offline;
   window.game_data = new Array(); // stores table data
   window.sort_category = "Player"; // default sorting column
   window.countdown_timer = TIMER_LENGTH; // initial length of countdown timer
@@ -43,19 +44,35 @@ function MakeRequest()
   // zero the array that holds all the table data
   game_data = [{Player: "Yredelemnul", Version: "4.1", XL: "28", Char: "OMTh", Place: "Zot:27", Term: " ", Idle: "0", Viewers: "2", Server: "DCO"}];
   
-  /* begin ajax shenanigans */
-  xmlHttp = getXMLHttp();
- 
-  xmlHttp.onreadystatechange = function()
+  if(is_offline == 0)
   {
-    if(xmlHttp.readyState == 4)
+    /* begin ajax shenanigans */
+    xmlHttp = getXMLHttp();
+ 
+    xmlHttp.onreadystatechange = function()
     {
-      HandleResponse(xmlHttp.responseText);
+      if(xmlHttp.readyState == 4)
+      {
+        HandleResponse(xmlHttp.responseText);
+      }
     }
-  }
 
-  xmlHttp.open("GET", "webstatus-ajax.php", true);
-  xmlHttp.send(null);
+    xmlHttp.open("GET", "webstatus-ajax.php", true);
+    xmlHttp.send(null);
+  }
+  else // if is_offline is true, bypass the ajax shenanigans
+  {
+    var fake_response;
+    fake_response = "Tester1#0.2#03#MnOp#D:5#80x24#75#7#CDO/DGL|" +
+                    "Tester2#0.3#04#QrSt#D:6#80x24#90#1#CDO/Web|" +
+                    "Tester3#0.4#05#UvWx#D:7#80x24#0#2#CDO/DGL|" +
+                    "Tester4#0.5#06#YzAb#D:1#80x24#15#3#CDO/Web|" +
+                    "Tester5#0.6#07#AbCd#D:2#80x24#30#4#CDO/DGL|" +
+                    "Tester6#0.7#01#EfGh#D:3#80x24#45#5#CDO/Web|" +
+                    "Tester7#0.1#02#IjKl#D:4#80x24#60#6#CDO/DGL";
+    //pause = setTimeout("HandleResponse(fake_response)", COUNTDOWN_INTERVAL);
+    HandleResponse(fake_response);
+  }
 }
 
 function getXMLHttp()
@@ -87,13 +104,14 @@ function getXMLHttp()
       }
     }
   }
+
   return xmlHttp;
 }
 /* end ajax shenanigans */
 
 function HandleResponse(response) // response is the string returned by ajax/php
 {
-  //debug(response); // uncomment this to see the raw php output
+  // debug(response); // uncomment this to see the raw php output
 
   var split_response = new Array();
   split_response = response.split(ENTRY_SEPARATOR); // "|" denotes divisions between entries
@@ -404,7 +422,7 @@ function Countdown()
 {
   timer_is_on = 0;
 
-  if(countdown_timer > 0)
+  if(countdown_timer > 1)
   {
     countdown_timer -= TIMER_QUANTUM;
     DrawCountdownTimer();
