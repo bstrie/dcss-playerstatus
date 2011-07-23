@@ -65,13 +65,13 @@ function MakeRequest()
   else // if is_offline is true, bypass the ajax shenanigans
   {
     var fake_response;
-    fake_response = "Tester1#0.2#03#JkL4#D:5#80x24#75#7#CDO/DGL|" +
-                    "Tester2#0.3#04#MnO5#D:6#80x24#90#1#CDO/Web|" +
-                    "Tester3#0.4#05#PqR6#D:7#80x24#0#2#CDO/DGL|" +
-                    "Tester4#0.5#06#StU7#D:1#80x24#15#3#CDO/Web|" +
+    fake_response = "Tester1#0.2#03#JkL4#D:5#80x24#75#7#CAO|" +
+                    "Tester2#0.3#04#MnO5#D:6#80x24#90#1#CDO/DGL|" +
+                    "Tester3#0.4#05#PqR6#D:7#80x24#0#2#CDO/Web|" +
+                    "Tester4#0.5#06#StU7#D:1#80x24#15#3#CAO|" +
                     "Tester5#0.6#07#AbC1#D:2#80x24#30#4#CDO/DGL|" +
                     "Tester6#0.7#01#DeF2#D:3#80x24#45#5#CDO/Web|" +
-                    "Tester7#0.1#02#GhI3#D:4#80x24#60#6#CDO/DGL";
+                    "Tester7#0.1#02#GhI3#D:4#80x24#60#6#CAO";
     //pause = setTimeout("HandleResponse(fake_response)", COUNTDOWN_INTERVAL);
     HandleResponse(fake_response);
   }
