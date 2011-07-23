@@ -22,7 +22,7 @@ function InitGlobals(offline)
   window.countdown_timer = TIMER_LENGTH; // initial length of countdown timer
   window.splash_screen = ACTUALLY_TRUE; // determines where to write "Loading games..."
   window.sort_reversed = ACTUALLY_FALSE; // whether the sorting column is sorted in reverse
-  window.t; // the timer object
+  window.timer; // the timer object
   window.timer_is_on = ACTUALLY_FALSE; // determines whether the timer is active
   
   MakeRequest();
@@ -133,7 +133,7 @@ function HandleResponse(response) // response is the string returned by ajax/php
   
   SortData(); // put the data in order according to sort_category
   
-  t = setTimeout("Countdown()", COUNTDOWN_INTERVAL); // begin the countdown-to-refresh timer
+  timer = setTimeout("Countdown()", COUNTDOWN_INTERVAL); // begin the countdown-to-refresh timer
   timer_is_on = ACTUALLY_TRUE; // note that the timer is running
 }
 
@@ -431,7 +431,7 @@ function Countdown()
   {
     countdown_timer -= TIMER_QUANTUM;
     DrawCountdownTimer();
-    t = setTimeout("Countdown()", COUNTDOWN_INTERVAL);
+    timer = setTimeout("Countdown()", COUNTDOWN_INTERVAL);
     timer_is_on = ACTUALLY_TRUE;
   }
   else
@@ -457,7 +457,7 @@ function ReloadTable()
   
   if(timer_is_on)
   {
-    clearTimeout(t);
+    clearTimeout(timer);
   }
   
   MakeRequest();
