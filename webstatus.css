@@ -2,8 +2,8 @@
 
 /* declares the custom font */
 @font-face {
-  font-family: 'VeraMono';
-  src: url('VeraMono.ttf');
+  font-family: 'DejaVuSansMono';
+  src: url('DejaVuSansMono.ttf');
 }
 
 /* declares the properties of all tables on the page
@@ -15,7 +15,7 @@ table {
 
 /* the properties of the div that holds the tables */
 #ajax-response {
-    font-family: "VeraMono", "courier new";
+    font-family: "DejaVuSansMono", "courier new";
     text-align: left;
     font-size: 12px;
 }
