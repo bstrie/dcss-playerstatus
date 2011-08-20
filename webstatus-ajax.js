@@ -5,7 +5,7 @@
 
 PlayerStatus = (function() {
   'use strict';
-  var blah = {};
+  var external = {};
   
   // constants
   var ACTUALLY_FALSE = 0; // because booleans in javascript are lies
@@ -18,8 +18,6 @@ PlayerStatus = (function() {
   var CAO_PLAYER_URL = "http://crawl.akrasiac.org/scoring/players/"; // generates link to player page
   var WEBTILES_SERVER_NAME = "CDO/Web"; // determines if a game is watchable
   var WEBTILES_URL = "https://tiles.crawl.develz.org/#watch-"; // generates link to watch webtiles games
-
-  
 
   // control variables
   var is_offline = false;
@@ -404,22 +402,22 @@ PlayerStatus = (function() {
     document.getElementById('timer').innerHTML = timer_string;
   };
 
-  var Countdown = function()
-  {
-    timer_is_on = ACTUALLY_FALSE;
+  // var Countdown = function()
+  // {
+    // timer_is_on = ACTUALLY_FALSE;
 
-    if(countdown_timer > 1)
-    {
-      countdown_timer -= TIMER_QUANTUM;
-      DrawCountdownTimer();
-      timer = setTimeout("PlayerStatus.Countdown()", COUNTDOWN_INTERVAL);
-      timer_is_on = ACTUALLY_TRUE;
-    }
-    else
-    {
-      ReloadTable();
-    }
-  };
+    // if(countdown_timer > 1)
+    // {
+      // countdown_timer -= TIMER_QUANTUM;
+      // DrawCountdownTimer();
+      // timer = setTimeout("PlayerStatus.Countdown()", COUNTDOWN_INTERVAL);
+      // timer_is_on = ACTUALLY_TRUE;
+    // }
+    // else
+    // {
+      // ReloadTable();
+    // }
+  // };
 
   var debug = function(message)
   {
@@ -432,19 +430,19 @@ PlayerStatus = (function() {
     document.getElementById('debug').innerHTML = d;
   };
 
-  var ReloadTable = function()
-  {
-    countdown_timer = TIMER_LENGTH;
+  // var ReloadTable = function()
+  // {
+    // countdown_timer = TIMER_LENGTH;
 
-    if(timer_is_on)
-    {
-      clearTimeout(timer);
-    }
+    // if(timer_is_on)
+    // {
+      // clearTimeout(timer);
+    // }
 
-    MakeRequest();
-  };
+    // MakeRequest();
+  // };
 
-  blah.init = function(offline)
+  external.init = function(offline)
   {
     is_offline = offline;
     MakeRequest();
@@ -452,7 +450,7 @@ PlayerStatus = (function() {
   
   // if the column to be sorted is the column that is already sorted,
   // re-sort it in the opposite order.
-  blah.SortCategories = function(new_category)
+  external.SortCategories = function(new_category)
   {
     // new_category is the category the user has clicked
     // sort_category is the caregory currently determining sort order
@@ -478,7 +476,36 @@ PlayerStatus = (function() {
       SortData(); // proprietary sort method called "terrible slowsort"
     }
   };
+  
+  external.Countdown = function()
+  {
+    timer_is_on = ACTUALLY_FALSE;
 
-  return blah;
+    if(countdown_timer > 1)
+    {
+      countdown_timer -= TIMER_QUANTUM;
+      DrawCountdownTimer();
+      timer = setTimeout("PlayerStatus.Countdown()", COUNTDOWN_INTERVAL);
+      timer_is_on = ACTUALLY_TRUE;
+    }
+    else
+    {
+      PlayerStatus.ReloadTable();
+    }
+  };
+  
+  external.ReloadTable = function()
+  {
+    countdown_timer = TIMER_LENGTH;
+
+    if(timer_is_on)
+    {
+      clearTimeout(timer);
+    }
+
+    MakeRequest();
+  };
+
+  return external;
 
 })();
