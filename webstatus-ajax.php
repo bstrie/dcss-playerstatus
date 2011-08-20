@@ -5,6 +5,7 @@
 // in the raw data, "#" separates fields and newlines separate entries
 $data = FetchData("http://crawl.develz.org/cgi-bin/dgl-status/index.html", "CDO/DGL");
 $data = $data . FetchData("http://crawl.develz.org/cgi-bin/web-status/index.html", "CDO/Web");
+$data = $data . FetchData("http://crawl.akrasiac.org/cgi-bin/dgl-status/index.html", "CAO/DGL");
 
 /* use simple find-and-replace to make the fetched game data more parseable
    fetched data must use "#" to separate fields and "|" to separate entries */
