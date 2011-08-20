@@ -46,7 +46,7 @@ tr.alt:hover a:visited {
     
     /* change the row text and anchor color to white on hover */
     -moz-transition-property: color;
-    -moz-transition-duration: 0.25s;
+    -moz-transition-duration: 0.15s;
 }
 
 /* links in the table data are without decoration unless their row is hovered */
@@ -58,6 +58,7 @@ tr.alt:hover td a {
 /* make color transparent so that CDO wordpress background shows through */
 body {
 	background: transparent !important;
+    /* background: none repeat scroll 0 0 transparent !important; */
 }
 
 /* padding widths for all table cells
@@ -78,7 +79,7 @@ th {
     
     /* change table header background back after hover, starting off slow */
     -moz-transition-property: background-color;
-    -moz-transition-duration: 0.3s;
+    -moz-transition-duration: 0s;
     -moz-transition-timing-function: ease-in;
 }
 
@@ -88,7 +89,7 @@ tr.norm td {
     
     /* change tr.norm background color back after hover */
     -moz-transition-property: background-color;
-    -moz-transition-duration: 0.25s;
+    -moz-transition-duration: 0.2s;
 }
 
 /* odd table rows have a lighter black */
@@ -97,7 +98,7 @@ tr.alt td {
     
     /* change tr.alt background color back after hover */
     -moz-transition-property: background-color;
-    -moz-transition-duration: 0.25s;
+    -moz-transition-duration: 0.2s;
 }
 
 /* both types of table rows are light on hover */
@@ -107,7 +108,7 @@ tr.norm:hover td {
     
     /* highlight tr.norm and tr.alt rows on hover, starting off slow */
     -moz-transition-property: background-color;
-    -moz-transition-duration: 0.7s;
+    -moz-transition-duration: 0s;
     -moz-transition-timing-function: ease-in;
 }
 
@@ -166,7 +167,7 @@ a:visited {
     
     /* change back the sort header background after hover */
     -moz-transition-property: background-color;
-    -moz-transition-duration: 0.3s;
+    -moz-transition-duration: 0s;
     -moz-transition-timing-function: ease-in;
 }
 
@@ -175,5 +176,5 @@ th:hover,
 th:hover a {
     background-color: rgb(240,240,240);
     -moz-transition-property: background-color;
-    -moz-transition-duration: 0.1s;
+    -moz-transition-duration: 0s;
 }
