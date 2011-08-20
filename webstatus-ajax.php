@@ -17,6 +17,9 @@ $data = str_replace(" ", "#", $data); // parses the space between xl and char
 $data = str_replace("##", "####", $data); // dummy hashes for blank "where"
 $data = str_replace("svn", "git", $data); // svn is old indicator for trunk, we're on git now
 $data = str_replace("#dcss-", "#", $data); // normal games are dcss-0.x but we don't need all that
+$data = str_replace("#Crawl-", "#", $data); // CAO appends this to all versions
+$data = str_replace("#Sprint-", "#spr-", $data); // CAO, normalize to CDO for regexes
+$data = str_replace("-ZD#", "-zd#", $data); // CAO, normalize to CDO
 $data = str_replace("#Shoals:", "#Shoal:", $data); // make shoals shorter
 
 // CDO sends us versions like "spr-0.8" but we want in the form "0.8-spr"
