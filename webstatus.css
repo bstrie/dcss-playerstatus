@@ -119,24 +119,28 @@ a:visited {
     color: rgb(180,180,180);
 }
 
-#status-row:hover {
+#status-row-upper:hover,
+#status-row-lower:hover {
     cursor: pointer;
 }
 
-#status-row:hover span.blue {
+#status-row-upper:hover span.blue,
+#status-row-lower:hover span.blue {
     color: rgb(85,255,85);
     -moz-transition-property: color;
     -moz-transition-duration: 0.5s;
 }
 
-#status-row:hover span.purple {
+#status-row-upper:hover span.purple,
+#status-row-lower:hover span.purple {
     color: rgb(187,0,0);
     -moz-transition-property: color;
     -moz-transition-duration: 0.5s;
 }
 
 /* the div with the countdown-to-refresh timer, aligned right */
-#timer {
+#timer-upper,
+#timer-lower {
     text-align: right;
 }
 

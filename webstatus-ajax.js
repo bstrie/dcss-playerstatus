@@ -41,7 +41,8 @@ PlayerStatus = (function() {
     else
     {
       // "players" is the name of the td that normally shows the number of players
-      document.getElementById("players").innerHTML = "Loading games...";
+      document.getElementById("players-upper").innerHTML = "Loading games...";
+      document.getElementById("players-lower").innerHTML = "Loading games...";
     }
 
     // zero the array that holds all the table data
@@ -246,7 +247,7 @@ PlayerStatus = (function() {
   var CreateTable = function()
   {
     // "data-table" is what is overwritten when the countdown timer elapses
-    var table_string = "<table id='container-table'><tr><td colspan=2><table id='data-table'><tr>";
+    var table_string = "<table id='container-table'><tr id='status-row-upper' onclick='PlayerStatus.ReloadTable();' onmousedown='return false;' onselectstart='return false;'><td id='players-upper'>" + (game_data.length) + " game" + (game_data.length===1 ? "" : "s") + " in progress</td><td id='timer-upper'></td></tr><tr><td colspan=2><table id='data-table'><tr>";
 
     // get the names of the categories, defined as object properties
     var game = game_data[0];
@@ -316,7 +317,7 @@ PlayerStatus = (function() {
     // clicking this lower table reloads the upper table
     // two fields: "players" shows the number of games being played,
     // "timer" shows the countdown timer
-    table_string += "</table></td></tr><tr id='status-row' onclick='PlayerStatus.ReloadTable();' onmousedown='return false;' onselectstart='return false;'><td id='players'>" + (game_data.length) + " game" + (game_data.length===1 ? "" : "s") + " in progress</td><td id='timer'></td></tr></table>";
+    table_string += "</table></td></tr><tr id='status-row-lower' onclick='PlayerStatus.ReloadTable();' onmousedown='return false;' onselectstart='return false;'><td id='players-lower'>" + (game_data.length) + " game" + (game_data.length===1 ? "" : "s") + " in progress</td><td id='timer-lower'></td></tr></table>";
 
     // push the defined table to the page
     document.getElementById('ajax-response').innerHTML = table_string;
@@ -399,7 +400,8 @@ PlayerStatus = (function() {
       timer_string += "</span>";
     }
 
-    document.getElementById('timer').innerHTML = timer_string;
+    document.getElementById('timer-upper').innerHTML = timer_string;
+    document.getElementById('timer-lower').innerHTML = timer_string;
   };
 
   // var Countdown = function()
