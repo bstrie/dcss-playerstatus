@@ -61,7 +61,7 @@ PlayerStatus = (function() {
         }
       };
 
-      xmlHttp.open("GET", "http://seleniac.org/crawl/webstatus/webstatus-ajax.php", true);
+      xmlHttp.open("GET", "webstatus-ajax.php", true);
       xmlHttp.send(null);
     }
     else // if is_offline is true, bypass the ajax shenanigans
