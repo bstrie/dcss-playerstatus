@@ -293,7 +293,8 @@ PlayerStatus = (function() {
         {
           player_name = game[j];
           // link to their CAO scoring page
-          table_string += "<td>" + player_name.link(CAO_PLAYER_URL + player_name.toLowerCase() + ".html") + "</td>";
+          //table_string += "<td>" + player_name.link(CAO_PLAYER_URL + player_name.toLowerCase() + ".html") + "</td>";
+          table_string += "<td><a target='_blank' href='" + CAO_PLAYER_URL + player_name.toLowerCase() + ".html'>" + player_name + "</a></td>";
         }
         // the idle string is stored as seconds, we want to put it in ##:## format
         else if(j === "Idle")
@@ -303,7 +304,8 @@ PlayerStatus = (function() {
         // if playing webtiles, we want to add a link to watch the game
         else if(j === "Viewers" && game["Server"] === WEBTILES_SERVER_NAME)
         {
-          table_string += "<td>" + game[j] + " (" + "Watch".link(WEBTILES_URL + player_name.toLowerCase()) + ")</td>";
+          //table_string += "<td>" + game[j] + " (" + "Watch".link(WEBTILES_URL + player_name.toLowerCase()) + ")</td>";
+          table_string += "<td>" + game[j] + " (<a target='_blank' href='" + WEBTILES_URL + player_name.toLowerCase() + "'>Watch</a>)</td>";
         }
         // we don't want to see the term column
         else if(!(j === "Term"))
