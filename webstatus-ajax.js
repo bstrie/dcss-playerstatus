@@ -17,12 +17,12 @@ function InitGlobals(offline)
   
   // control variables
   window.is_offline = offline;
-  window.game_data = new Array(); // stores table data
+  window.game_data = []; // stores table data
   window.sort_category = "Player"; // default sorting column
   window.countdown_timer = TIMER_LENGTH; // initial length of countdown timer
   window.splash_screen = ACTUALLY_TRUE; // determines where to write "Loading games..."
   window.sort_reversed = ACTUALLY_FALSE; // whether the sorting column is sorted in reverse
-  window.timer; // the timer object
+  window.timer = null; // the timer object
   window.timer_is_on = ACTUALLY_FALSE; // determines whether the timer is active
   
   MakeRequest();
@@ -46,18 +46,18 @@ function MakeRequest()
   // zero the array that holds all the table data
   game_data = [{Player: "Yredelemnul", Version: "4.1", XL: "28", Char: "OMTh", Place: "Zot:27", Term: " ", Idle: "0", Viewers: "2", Server: "DCO"}];
   
-  if(is_offline == ACTUALLY_FALSE)
+  if(is_offline === ACTUALLY_FALSE)
   {
     /* begin ajax shenanigans */
     xmlHttp = getXMLHttp();
  
     xmlHttp.onreadystatechange = function()
     {
-      if(xmlHttp.readyState == 4)
+      if(xmlHttp.readyState === 4)
       {
         HandleResponse(xmlHttp.responseText);
       }
-    }
+    };
 
     xmlHttp.open("GET", "webstatus-ajax.php", true);
     xmlHttp.send(null);
@@ -79,29 +79,29 @@ function MakeRequest()
 
 function getXMLHttp()
 {
-  var xmlHttp
+  var xmlHttp;
 
   try
   {
     //Firefox, Opera 8.0+, Safari
     xmlHttp = new XMLHttpRequest();
   }
-  catch(e)
+  catch(e1)
   {
     //Internet Explorer
     try
     {
       xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
     }
-    catch(e)
+    catch(e2)
     {
       try
       {
         xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
       }
-      catch(e)
+      catch(e3)
       {
-        alert("Your browser does not support AJAX!")
+        alert("Your browser does not support AJAX!");
         return false;
       }
     }
@@ -115,7 +115,7 @@ function HandleResponse(response) // response is the string returned by ajax/php
 {
   // debug(response); // uncomment this to see the raw php output
 
-  var split_response = new Array();
+  var split_response = [];
   split_response = response.split(ENTRY_SEPARATOR); // "|" denotes divisions between entries
   
   var game; // holds all data for a single game
@@ -143,7 +143,7 @@ function ParseXL(raw_xl)
   var xl;
   xl = raw_xl.slice(1);
   
-  if((xl.length) == 1)
+  if((xl.length) === 1)
   {
     xl = "&nbsp;" + xl;
   }
@@ -205,7 +205,7 @@ function SortData()
 // raw seconds) has to be fudged to make it sort properly
 function FudgeNumbers(value)
 {
-  if(sort_category == "Idle")
+  if(sort_category === "Idle")
   {
     switch(value.length)
     {
@@ -243,11 +243,11 @@ function CreateTable()
   
   for(i in game)
   {    
-    if(i == sort_category) // visual cue for the current sort category
+    if(i === sort_category) // visual cue for the current sort category
     {
       table_string += "<th class='sort' onmousedown='return false;' onselectstart='return false;' onclick='SortCategories(\"" + i + "\")'>" + i + "</th>";
     }
-    else if(!(i == "Term")) // we don't want to see the term category
+    else if(!(i === "Term")) // we don't want to see the term category
     {
       // "onmousedown='return false;' onselectstart='return false;'
       // keep the header text from being highlightable
@@ -265,7 +265,7 @@ function CreateTable()
   {
     game = game_data[i];
     
-    if(i % 2 == 0)
+    if(i % 2 === 0)
     {
       table_string += "<tr class='norm'>"; // even rows are darker
     }
@@ -277,24 +277,24 @@ function CreateTable()
     for(j in game)
     {
       // we want the player's name to be a link to their scoring page
-      if(j == "Player")
+      if(j === "Player")
       {
         player_name = game[j];
         // link to their CAO scoring page
         table_string += "<td>" + player_name.link(CAO_PLAYER_URL + player_name.toLowerCase() + ".html") + "</td>";
       }
       // the idle string is stored as seconds, we want to put it in ##:## format
-      else if(j == "Idle")
+      else if(j === "Idle")
       {
         table_string += "<td>" + convertIdle(game[j]) + "</td>";
       }
       // if playing webtiles, we want to add a link to watch the game
-      else if(j == "Viewers" && game["Server"] == WEBTILES_SERVER_NAME)
+      else if(j === "Viewers" && game["Server"] === WEBTILES_SERVER_NAME)
       {
         table_string += "<td>" + game[j] + " (" + "Watch".link(WEBTILES_URL + player_name.toLowerCase()) + ")</td>";
       }
       // we don't want to see the term column
-      else if(!(j == "Term"))
+      else if(!(j === "Term"))
       {
         table_string += "<td>" + game[j] + "</td>";
       }
@@ -307,7 +307,7 @@ function CreateTable()
   // clicking this lower table reloads the upper table
   // two fields: "players" shows the number of games being played,
   // "timer" shows the countdown timer
-  table_string += "</table></td></tr><tr id='status-row' onclick='ReloadTable();' onmousedown='return false;' onselectstart='return false;'><td id='players'>" + (game_data.length) + " game" + (game_data.length==1 ? "" : "s") + " in progress</td><td id='timer'></td></tr></table>";
+  table_string += "</table></td></tr><tr id='status-row' onclick='ReloadTable();' onmousedown='return false;' onselectstart='return false;'><td id='players'>" + (game_data.length) + " game" + (game_data.length===1 ? "" : "s") + " in progress</td><td id='timer'></td></tr></table>";
   
   // push the defined table to the page
   document.getElementById('ajax-response').innerHTML = table_string;
@@ -322,7 +322,7 @@ function SortCategories(new_category)
 {
   // new_category is the category the user has clicked
   // sort_category is the caregory currently determining sort order
-  if(sort_category == new_category)
+  if(sort_category === new_category)
   {
     // sort_reversed is our global variable to determine the sort order
     if(sort_reversed)
