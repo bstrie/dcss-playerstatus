@@ -13,7 +13,7 @@ $data = str_replace(", ", "#", $data); // ", " separates char and place
 $data = str_replace("  ", " ", $data); // for alignment, sometimes two spaces separate xl and char
 $data = str_replace(" ", "#", $data); // parses the space between xl and char
 // if player is dead or starting a game, "where" field is blank
-$data = str_replace("##", "####", $data); // dummy hashes for blank "where"
+$data = str_replace("##", "#-#-#Nowhere#", $data); // dummy hashes for blank "where"
 $data = str_replace("svn", "git", $data); // svn is old indicator for trunk, we're on git now
 $data = str_replace("#dcss-", "#", $data); // normal games are dcss-0.x but we don't need all that
 $data = str_replace("#Shoals:", "#Shoal:", $data); // make shoals shorter
