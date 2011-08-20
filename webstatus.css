@@ -8,20 +8,20 @@
 
 /* declares the properties of all tables on the page
    the two tables are the data table (top) and the status table (below) */
-table {
+#webstatus table {
     margin:auto;
     width: 100%;
 }
 
 /* the properties of the div that holds the tables */
-#ajax-response {
+#webstatus #ajax-response {
     font-family: "DejaVuSansMono", "courier new";
     text-align: left;
     font-size: 12px;
 }
 
 /* make the data table black with light gray text */
-#data-table {
+#webstatus #data-table {
     background-color: black;
     color: rgb(180,180,180);
     
@@ -30,18 +30,18 @@ table {
     -moz-transition-duration: 0.25s;
 }
 
-#data-table td {
+#webstatus #data-table td {
     cursor: default;
 }
 
 /* tr.norm are even table rows, tr.alt are odd ones
    on mouseover, both have white text for both normal text and links */
-tr.norm:hover,
-tr.alt:hover,
-tr.norm:hover a:link,
-tr.norm:hover a:visited,
-tr.alt:hover a:link,
-tr.alt:hover a:visited {
+#webstatus tr.norm:hover,
+#webstatus tr.alt:hover,
+#webstatus tr.norm:hover a:link,
+#webstatus tr.norm:hover a:visited,
+#webstatus tr.alt:hover a:link,
+#webstatus tr.alt:hover a:visited {
     color: white;
     
     /* change the row text and anchor color to white on hover */
@@ -50,27 +50,27 @@ tr.alt:hover a:visited {
 }
 
 /* links in the table data are without decoration unless their row is hovered */
-tr.norm:hover td a,
-tr.alt:hover td a {
+#webstatus tr.norm:hover td a,
+#webstatus tr.alt:hover td a {
     text-decoration:underline;
 }
 
 /* make color transparent so that CDO wordpress background shows through */
-body {
+#webstatus body {
 	background: transparent !important;
     /* background: none repeat scroll 0 0 transparent !important; */
 }
 
 /* padding widths for all table cells
    3px top and bottom, 5px left and right */
-th,
-td {
+#webstatus th,
+#webstatus td {
     padding: 3px 5px;
 }
 
 /* th are table header cells
    differ from td by having gray background with black text, changed cursor */
-th {
+#webstatus th {
     font-weight: normal;
     color: black;
     text-align: left;
@@ -84,7 +84,7 @@ th {
 }
 
 /* even table rows have a darker black */
-tr.norm td {
+#webstatus tr.norm td {
     background-color: rgb(15,15,15);
     
     /* change tr.norm background color back after hover */
@@ -93,7 +93,7 @@ tr.norm td {
 }
 
 /* odd table rows have a lighter black */
-tr.alt td {
+#webstatus tr.alt td {
     background-color: rgb(30,30,30);
     
     /* change tr.alt background color back after hover */
@@ -102,8 +102,8 @@ tr.alt td {
 }
 
 /* both types of table rows are light on hover */
-tr.alt:hover td,
-tr.norm:hover td {
+#webstatus tr.alt:hover td,
+#webstatus tr.norm:hover td {
     background-color: rgb(45,45,45) !important;
     
     /* highlight tr.norm and tr.alt rows on hover, starting off slow */
@@ -113,60 +113,60 @@ tr.norm:hover td {
 }
 
 /* links are normally undecorated */
-a:link,
-a:visited {
+#webstatus a:link,
+#webstatus a:visited {
     text-decoration: none;
     color: rgb(180,180,180);
 }
 
-#status-row-upper:hover,
-#status-row-lower:hover {
+#webstatus #status-row-upper:hover,
+#webstatus #status-row-lower:hover {
     cursor: pointer;
 }
 
-#status-row-upper:hover span.blue,
-#status-row-lower:hover span.blue {
+#webstatus #status-row-upper:hover span.blue,
+#webstatus #status-row-lower:hover span.blue {
     color: rgb(85,255,85);
     -moz-transition-property: color;
     -moz-transition-duration: 0.5s;
 }
 
-#status-row-upper:hover span.purple,
-#status-row-lower:hover span.purple {
+#webstatus #status-row-upper:hover span.purple,
+#webstatus #status-row-lower:hover span.purple {
     color: rgb(187,0,0);
     -moz-transition-property: color;
     -moz-transition-duration: 0.5s;
 }
 
 /* the div with the countdown-to-refresh timer, aligned right */
-#timer-upper,
-#timer-lower {
+#webstatus #timer-upper,
+#webstatus #timer-lower {
     text-align: right;
 }
 
 /* used in the countdown timer */
-.blue {
+#webstatus .blue {
     color: rgb(85,85,255);
     -moz-transition-property: color;
     -moz-transition-duration: 0.5s;
 }
 
 /* same */
-.purple {
+#webstatus .purple {
     color: rgb(187,0,187);
     -moz-transition-property: color;
     -moz-transition-duration: 0.5s;
 }
 
 /* same */
-.grey {
+#webstatus .grey {
     color: rgb(85,85,85);
 }
 
 /* .sort is the class of the column that is currently dictating the sort order
    give it a lighter grey background */
-.sort,
-.sort a {
+#webstatus .sort,
+#webstatus .sort a {
     background-color: rgb(220,220,220);
     
     /* change back the sort header background after hover */
@@ -176,8 +176,8 @@ a:visited {
 }
 
 /* all headers are lighter upon mouseover */
-th:hover, 
-th:hover a {
+#webstatus th:hover, 
+#webstatus th:hover a {
     background-color: rgb(240,240,240);
     -moz-transition-property: background-color;
     -moz-transition-duration: 0s;
