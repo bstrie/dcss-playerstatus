@@ -108,7 +108,7 @@
     
     /* highlight tr.norm and tr.alt rows on hover, starting off slow */
     -moz-transition-property: background-color;
-    -moz-transition-duration: 0s;
+    -moz-transition-duration: 0.05s;
     -moz-transition-timing-function: ease-in;
 }
 
