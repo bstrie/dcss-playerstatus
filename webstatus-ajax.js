@@ -118,13 +118,14 @@ PlayerStatus = (function() {
   {
     // debug(response); // uncomment this to see the raw php output
     var split_response = [];
+    var i = 0;
 
     split_response = response.split(ENTRY_SEPARATOR); // "|" denotes divisions between entries
 
     var game; // holds all data for a single game
 
     // populate the table data array
-    for(var i = 0; i < (split_response.length); i++)
+    for(i = 0; i < (split_response.length); i++)
     {
       game = split_response[i].split(FIELD_SEPARATOR); // "#" denotes divisions between fields
 
@@ -160,13 +161,12 @@ PlayerStatus = (function() {
   // TODO: maybe generate sort strings once and then persist them
   var SortData = function()
   {
-    var sort_keys = new Array();
-
+    var sort_keys = [];
     var game;
-
     var key;
+    var i;
 
-    for(var i = 0; i < (game_data.length); i++) // loops for each game in table
+    for(i = 0; i < (game_data.length); i++) // loops for each game in table
     {
       game = game_data[i];
       // example of what key might look like, for sort_category "XL":
@@ -186,10 +186,9 @@ PlayerStatus = (function() {
     // sort_keys now represents the table data in order
 
     var index;
+    var sorted_games = [];
 
-    var sorted_games = new Array();
-
-    for(var i = 0; i < (sort_keys.length); i++) // loop for each key
+    for(i = 0; i < (sort_keys.length); i++) // loop for each key
     {
       // retrieve the location of the current element in the unsorted array
       index = sort_keys[i].split(ENTRY_SEPARATOR)[1];
@@ -251,14 +250,18 @@ PlayerStatus = (function() {
 
     // get the names of the categories, defined as object properties
     var game = game_data[0];
+    
+    var i, j;
+    
+    var player_name;
 
-    for(var i in game)
+    for(i in game)
     {
       if(i === sort_category) // visual cue for the current sort category
       {
         table_string += "<th class='sort' onmousedown='return false;' onselectstart='return false;' onclick='PlayerStatus.SortCategories(\"" + i + "\")'>" + i + "</th>";
       }
-      else if(!(i === "Term")) // we don't want to see the term category
+      else if(i !== "Term") // we don't want to see the term category
       {
         // "onmousedown='return false;' onselectstart='return false;'
         // keep the header text from being highlightable
@@ -270,10 +273,8 @@ PlayerStatus = (function() {
 
     game = "";
 
-    var player_name;
-
     // put the data into the table
-    for(var i = 0; i < (game_data.length); i++)
+    for(i = 0; i < (game_data.length); i++)
     {
       game = game_data[i];
 
@@ -286,7 +287,7 @@ PlayerStatus = (function() {
         table_string += "<tr class='alt'>"; // odd rows are lighter
       }
 
-      for(var j in game)
+      for(j in game)
       {
         // we want the player's name to be a link to their scoring page
         if(j === "Player")
@@ -308,7 +309,7 @@ PlayerStatus = (function() {
           table_string += "<td>" + game[j] + " (<a target='_blank' href='" + WEBTILES_URL + player_name.toLowerCase() + "'>Watch</a>)</td>";
         }
         // we don't want to see the term column
-        else if(!(j === "Term"))
+        else if(j !== "Term")
         {
           table_string += "<td>" + game[j] + "</td>";
         }
@@ -370,12 +371,14 @@ PlayerStatus = (function() {
   var DrawCountdownTimer = function()
   {
     var timer_string = "<span class='blue'>"; // colors text blue
+    
+    var i, j;
 
     // if TIMER_QUANTUM = 2, every COUNTDOWN_INTERVAL the timer will have
     // two fewer = signs
-    for(var i = 0; i < countdown_timer; i+=TIMER_QUANTUM)
+    for(i = 0; i < countdown_timer; i+=TIMER_QUANTUM)
     {
-      for(var j = 0; j < TIMER_QUANTUM; j++)
+      for(j = 0; j < TIMER_QUANTUM; j++)
       {
         timer_string += "=";
       }
@@ -392,9 +395,9 @@ PlayerStatus = (function() {
     {
       timer_string += "<span class='grey'>";
 
-      for(var i = countdown_timer; i < TIMER_LENGTH - TIMER_QUANTUM; i+=TIMER_QUANTUM)
+      for(i = countdown_timer; i < TIMER_LENGTH - TIMER_QUANTUM; i+=TIMER_QUANTUM)
       {
-        for(var j = 0; j < TIMER_QUANTUM; j++)
+        for(j = 0; j < TIMER_QUANTUM; j++)
         {
           timer_string += "-";
         }
