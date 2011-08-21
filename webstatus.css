@@ -132,9 +132,9 @@
     /* -o-transition-property: background-color; */
     -moz-transition-property: background-color;
     -webkit-transition-property: background-color;
-    /* -o-transition-duration: 0.05s; */
-    -moz-transition-duration: 0.05s;
-    -webkit-transition-duration: 0.05s;
+    /* -o-transition-duration: 0s; */
+    -moz-transition-duration: 0s;
+    -webkit-transition-duration: 0s;
     /* -o-transition-timing-function: ease-in; */
     -moz-transition-timing-function: ease-in;
     -webkit-transition-timing-function: ease-in;
