@@ -6,6 +6,11 @@
   src: url('DejaVuSansMono.ttf');
 }
 
+#webstatus {
+    height: 14px;
+    line-height: 14px;
+}
+
 /* declares the properties of all tables on the page
    the two tables are the data table (top) and the status table (below) */
 #webstatus table {
