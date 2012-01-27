@@ -55,7 +55,11 @@ function formatData(data) {
 }
 
 function drawTable(data) {
-    var tablehtml = data.length + ' games in progress' +
+    var tablehtml = '<span id="games">' +
+                    data.length + ' games in progress' +
+                    '</span>' +
+                    '<span id="tip">Tip: shift-click on column headings ' +
+                    'to sort by multiple columns at once.</span>' +
                     '<table id="statustable" class="tablesorter">' +
                     '<thead><tr>' +
                     '<th>Player</th>' +
