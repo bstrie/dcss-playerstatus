@@ -39,6 +39,7 @@ function formatData(data) {
     data.sort(function(a, b) {
         return a[0].toLowerCase() < b[0].toLowerCase() ? -1 : 1;
     });
+    dbg = data;
 
     var fmtdata = $.extend(true, [], data);  // Recursively copy the array
     // Each array in data looks like this:
@@ -84,9 +85,18 @@ function drawTable(data) {
     $('#statustable th').each(function() { 
         $(this).text($(this).text() + '\u00A0\u00A0')
     });
+    $.tablesorter.addParser({
+        id: 'viewers',
+        is: function(s) { return false; },
+        format: function(s) {
+            return parseInt(s.split(' ')[0]);
+        },
+        type: 'numeric'
+    });
     $('#statustable').tablesorter({
         // Sort on the first column, ascending
         sortList: [[0,0]],
+        headers: {7: {sorter: 'viewers'}}
     });
 }
 
