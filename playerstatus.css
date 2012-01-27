@@ -1,0 +1,59 @@
+/* Adapted from tablesorter's basic blue theme */
+div#playerstatus {
+	font-family: consolas, menlo, "DejaVu Sans Mono", "Bitstream Vera Sans Mono", monospaced;
+	font-size: 8pt;
+}
+table.tablesorter {
+	background-color: #000000;
+	margin:10px 0pt 15px;
+	width: 100%;
+	text-align: left;
+}
+table.tablesorter thead tr th, table.tablesorter tfoot tr th {
+	background-color: #B4B4B4;
+	/*border: 1px solid #FFF;*/
+    font-weight: normal;
+	padding: 4px;
+}
+table.tablesorter thead tr .header {
+	background-image: url(bg.gif);
+	background-repeat: no-repeat;
+	background-position: center right;
+	cursor: pointer;
+}
+table.tablesorter tbody tr {
+	background-color: #0F0F0F;
+	color: #B4B4B4;
+    cursor: default;
+}
+table.tablesorter tbody tr:nth-child(even) {
+	background-color: #1E1E1E;
+}
+table.tablesorter tbody tr:hover {
+    color: #FFFFFF;
+    /*background-color: #2D2D2D;*/
+}
+table.tablesorter tbody tr:hover a {
+    color: #FFFFFF;
+    text-decoration: underline;
+}
+table.tablesorter tbody td {
+	padding: 4px;
+	vertical-align: top;
+}
+table.tablesorter tbody td a {
+    color: #B4B4B4;
+    text-decoration: none;
+}
+table.tablesorter thead tr .headerSortUp {
+	background-image: url(asc.gif);
+}
+table.tablesorter thead tr .headerSortDown {
+	background-image: url(desc.gif);
+}
+table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
+    background-color: #DCDCDC;
+}
+table.tablesorter thead tr th:hover, table.tablesorter thead tr th:hover {
+    background-color: #F0F0F0;
+}
