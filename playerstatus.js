@@ -1,4 +1,11 @@
+//TODO: preserve sorting across table updates
 var dbg;
+var URLS = [{'src': 'http://crawl.develz.org/cgi-bin/dgl-status/index.html',
+             'tag': 'CDO/DGL'},
+            {'src': 'http://crawl.develz.org/cgi-bin/web-status/index.html',
+             'tag': 'CDO/Web'},
+            {'src': 'http://crawl.akrasiac.org/cgi-bin/dgl-status/index.html',
+             'tag': 'CAO/DGL'}];
 var PLAYER = 0, 
     VER = 1,
     GAME = 2,
@@ -10,21 +17,15 @@ var PLAYER = 0,
     SERVER = 8; 
 
 function fetchData() {
-    var urls = [{'src': 'http://crawl.develz.org/cgi-bin/dgl-status/index.html',
-                 'tag': 'CDO/DGL'},
-                {'src': 'http://crawl.develz.org/cgi-bin/web-status/index.html',
-                 'tag': 'CDO/Web'},
-                {'src': 'http://crawl.akrasiac.org/cgi-bin/dgl-status/index.html',
-                 'tag': 'CAO/DGL'}];
     var results = '[';
     var requests = 0;
 
-    $.each(urls, function(url) {
-        $.get('fetch.php', urls[url], function(data) {
+    $.each(URLS, function(url) {
+        $.get('fetch.php', URLS[url], function(data) {
             results += data;
             requests += 1;
 
-            if (requests === urls.length) {
+            if (requests === URLS.length) {
                 results += ']';
                 formatData(JSON.parse(results));
             }
@@ -39,16 +40,15 @@ function formatData(data) {
     data.sort(function(a, b) {
         return a[0].toLowerCase() < b[0].toLowerCase() ? -1 : 1;
     });
-    dbg = data;
 
     var fmtdata = $.extend(true, [], data);  // Recursively copy the array
     // Each array in data looks like this:
     //  Player      Ver   Game   XL   Char   Place     Idle  Vwr Server
     // ["DrPraetor","git","dcss","10","OpEE","Volcano","722","0","CAO/DGL"]
     for (var i1=0; i1<data.length; i1++) {
-        fmtdata[i1][PLAYER] = formatPlayer(data[i1]);
-        fmtdata[i1][IDLE] = formatIdle(data[i1]);
-        fmtdata[i1][VIEWERS] = formatViewers(data[i1]);
+        fmtdata[i1][PLAYER] = formatPlayer(data[i1]);  // Link to player page
+        fmtdata[i1][IDLE] = formatIdle(data[i1]);  // Turn seconds into 00:00
+        fmtdata[i1][VIEWERS] = formatViewers(data[i1]);  // Link to watch page
     }
 
     drawTable(fmtdata);
@@ -89,19 +89,13 @@ function drawTable(data) {
     $('#statustable th').each(function() { 
         $(this).text($(this).text() + '\u00A0\u00A0')
     });
-    $.tablesorter.addParser({
-        id: 'viewers',
-        is: function(s) { return false; },
-        format: function(s) {
-            return parseInt(s.split(' ')[0]);
-        },
-        type: 'numeric'
-    });
     $('#statustable').tablesorter({
         // Sort on the first column, ascending
         sortList: [[0,0]],
         headers: {7: {sorter: 'viewers'}}
     });
+
+    setTimeout(fetchData, 30000);
 }
 
 function formatPlayer(datum) {
@@ -114,11 +108,8 @@ function formatPlayer(datum) {
 }
 
 function formatIdle(datum) {
-    var seconds = datum[IDLE];
-    var minutes;
-
-    minutes = Math.floor(seconds / 60);
-    seconds = seconds % 60;
+    var minutes = Math.floor(datum[IDLE] / 60);
+    var seconds = datum[IDLE] % 60;
 
     if (minutes < 10) minutes = '0' + minutes;
     if (seconds < 10) seconds = '0' + seconds;
@@ -145,5 +136,13 @@ function formatViewers(datum) {
 
 $(document).ready(function() {
     $('#playerstatus').text('Retrieving data');
+    $.tablesorter.addParser({
+        id: 'viewers',
+        is: function(s) { return false; },
+        format: function(s) {
+            return parseInt(s.split(' ')[0]);
+        },
+        type: 'numeric'
+    });
     fetchData();
 });
