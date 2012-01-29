@@ -1,6 +1,9 @@
+html a:visited {
+    color: blue;
+}
 /* Adapted from tablesorter's basic blue theme */
 div#playerstatus {
-	font-family: consolas, menlo, "DejaVu Sans Mono", "Bitstream Vera Sans Mono", monospaced;
+	font-family: menlo, "DejaVu Sans Mono", "Bitstream Vera Sans Mono", monospaced;
 	font-size: 8pt;
 }
 div#playerstatus span#games {
@@ -51,7 +54,7 @@ table.tablesorter tbody td {
 	padding: 4px;
 	vertical-align: top;
 }
-table.tablesorter tbody td a {
+table.tablesorter tbody td a{
     color: #B4B4B4;
     text-decoration: none;
 }

@@ -95,7 +95,7 @@ function drawTable(data) {
         headers: {7: {sorter: 'viewers'}}
     });
 
-    setTimeout(fetchData, 30000);
+    setTimeout(fetchData, 60000);
 }
 
 function formatPlayer(datum) {
@@ -139,9 +139,7 @@ $(document).ready(function() {
     $.tablesorter.addParser({
         id: 'viewers',
         is: function(s) { return false; },
-        format: function(s) {
-            return parseInt(s.split(' ')[0]);
-        },
+        format: function(s) { return parseInt(s.split(' ')[0]); },
         type: 'numeric'
     });
     fetchData();
