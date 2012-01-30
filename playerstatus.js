@@ -1,5 +1,5 @@
-//TODO: preserve sorting across table updates
-var dbg;
+playerstatus = (function() {
+
 var URLS = [{'src': 'http://crawl.develz.org/cgi-bin/dgl-status/index.html',
              'tag': 'CDO/DGL'},
             {'src': 'http://crawl.develz.org/cgi-bin/web-status/index.html',
@@ -83,6 +83,11 @@ function drawTable(data) {
 
     tablehtml += '</tbody></table>';
 
+    var sort = [[0,0]];
+    if ($('#statustable').length > 0 && $('#statustable')[0].config) {
+       sort = $('#statustable')[0].config.sortList;
+    }
+
     $('#playerstatus').html(tablehtml);
     // Kludgy, but the best way to ensure a certain width for each th,
     // since width in ex/em is insufficient and px will vary by font.
@@ -91,11 +96,11 @@ function drawTable(data) {
     });
     $('#statustable').tablesorter({
         // Sort on the first column, ascending
-        sortList: [[0,0]],
+        sortList: sort,
         headers: {7: {sorter: 'viewers'}}
     });
 
-    setTimeout(fetchData, 60000);
+    setTimeout(fetchData, 30000);
 }
 
 function formatPlayer(datum) {
@@ -144,3 +149,5 @@ $(document).ready(function() {
     });
     fetchData();
 });
+
+})();
