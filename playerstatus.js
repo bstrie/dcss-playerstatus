@@ -7,9 +7,12 @@ var TARGETS = [{'src': 'http://crawl.develz.org/cgi-bin/dgl-status/index.html',
                {'src': 'http://crawl.akrasiac.org/cgi-bin/dgl-status/index.html',
                 'tag': 'CAO/Term'},
                {'src': 'http://dobrazupa.org/cgi-bin/dgl-status',
-                'tag': 'CßO/Both'}];
+                'tag': 'CßO/Both'},
+               {'src': 'http://crawlus.somatika.net/status',
+                'tag': 'CSN/Web'}];
 var WATCH_URLS = {'CDO/Web': 'https://tiles.crawl.develz.org/#watch-',
-                  'CßO/Both': 'http://crawl.s-z.org/#watch-'};
+                  'CßO/Both': 'https://crawl.s-z.org/#watch-',
+                  'CSN/Web': 'http://crawlus.somatika.net:8080/#watch-'};
 var PLAYER = 0,
     VER = 1,
     GAME = 2,

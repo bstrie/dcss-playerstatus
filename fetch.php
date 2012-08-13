@@ -37,10 +37,12 @@ $data = str_replace("##", "####", $data);  // If field three was totally blank
 // If only servers could agree on compact, uniform game/version names...
 $data = str_replace("#dc-anc#", "#dcss-old#", $data);  // Ancient crawl
 $data = str_replace("#Lost in Time#", "#?#?#?#", $data);  // Ancient crawl
-$data = str_replace("-svn", "-git", $data);
-$data = str_replace("#Crawl-", "#dcss-", $data);
-$data = str_replace("#Sprint-", "#spr-", $data);
-$data = str_replace("#ZD-", "#zd-", $data);
+$data = str_replace("-web-trunk", "-git", $data);  //CSN
+$data = str_replace("-svn", "-git", $data);  // CAO
+$data = str_replace("#Crawl-", "#dcss-", $data);  // CAO
+$data = str_replace("#Sprint-", "#spr-", $data);  // CAO
+$data = str_replace("#sprint-", "#spr-", $data);  // CSN
+$data = str_replace("#ZD-", "#zd-", $data);  // CAO
 // CDO sends us "spr-0.8" but we want "0.8-spr"
 $pattern = "/#(dcss|spr|zd|tut)-([\d\.a-zA-Z]{3,4})#/";
 $replacement = "#$2#$1#";
