@@ -21,7 +21,6 @@ table.tablesorter {
 }
 table.tablesorter thead tr th, table.tablesorter tfoot tr th {
 	background-color: #B4B4B4;
-	/*border: 1px solid #FFF;*/
     font-weight: normal;
 	padding: 4px;
 }
