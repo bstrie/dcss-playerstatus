@@ -14,7 +14,7 @@ ZChris13#spr-svn##80x24#1730#0#
 
 We want to transform it in the following ways:
 1. Insert the server tag at the end of each record.
-2. Split out the third field into three subfields.
+2. Split out the third field into four subfields.
 3. Transform each server's idiosyncratic game/version identifiers (found in
    field 2) into a more uniform representation.
 4. Split out the game/version identifiers into two fields.
@@ -29,14 +29,17 @@ servers could respond in JSON, using standardized formats... but such is life.
 
 // We'll use | as our record delimiter as it won't appear in the dgl output.
 $data = str_replace("\n", ($tag . '|'), $data);
-// Field three represents three data points: xl, char, and place.
+// Field three represents four data points: xl, race, role, and place.
 $data = str_replace(", ", "#", $data);  // ", " separates char and place
 $data = str_replace("  ", " ", $data);  // If two spaces delimit xl and char
 $data = str_replace(" ", "#", $data);  // The space between xl and char
-$data = str_replace("##", "####", $data);  // If field three was totally blank
+$pattern = "/#(L\d{1,2})#([a-zA-Z]{2})([a-zA-Z]{2})#/";
+$replacement = "#$1#$2#$3#";
+$data = preg_replace($pattern, $replacement, $data);  // char -> race#role
+$data = str_replace("##", "#####", $data);  // If field three was totally blank
 // If only servers could agree on compact, uniform game/version names...
 $data = str_replace("#dc-anc#", "#dcss-old#", $data);  // Ancient crawl
-$data = str_replace("#Lost in Time#", "#?#?#?#", $data);  // Ancient crawl
+$data = str_replace("#Lost in Time#", "#?#?#?#?#", $data);  // Ancient crawl
 $data = str_replace("-web-trunk", "-git", $data);  //CSN
 $data = str_replace("-svn", "-git", $data);  // CAO
 $data = str_replace("#Crawl-", "#dcss-", $data);  // CAO

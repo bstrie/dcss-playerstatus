@@ -17,11 +17,12 @@ var PLAYER = 0,
     VER = 1,
     GAME = 2,
     XL = 3,
-    CHAR = 4,
-    PLACE = 5,
-    IDLE = 6,
-    VIEWERS = 7,
-    SERVER = 8;
+    RACE = 4,
+    ROLE = 5,
+    PLACE = 6,
+    IDLE = 7,
+    VIEWERS = 8,
+    SERVER = 9;
 
 function fetchPlayerData() {
     var results = [];
@@ -50,8 +51,8 @@ function formatData(data) {
 
     var fmtdata = $.extend(true, [], data);  // Recursively copy the array
     // Each array in `data` looks like this:
-    //  Player      Ver   Game   XL   Char   Place     Idle  Vwr Server
-    // ["DrPraetor","git","dcss","10","OpEE","Volcano","722","0","CAO/Term"]
+    //  Player      Ver   Game   XL   Race Role Place     Idle  Vwr Server
+    // ["DrPraetor","git","dcss","10","Op","EE","Volcano","722","0","CAO/Term"]
     for (var i1=0; i1<data.length; i1++) {
         fmtdata[i1][PLAYER] = formatPlayer(data[i1]);  // Link to player page
         fmtdata[i1][IDLE] = formatIdle(data[i1]);  // Turn seconds into 00:00
@@ -75,7 +76,8 @@ function drawTable(data) {
                           '<th>Ver</th>' +
                           '<th>Game</th>' +
                           '<th>XL</th>' +
-                          '<th>Char</th>' +
+                          '<th>Race</th>' +
+                          '<th>Role</th>' +
                           '<th>Place</th>' +
                           '<th>Idle</th>' +
                           '<th>Viewers</th>' +
