@@ -22,7 +22,7 @@ table.tablesorter {
 table.tablesorter thead tr th, table.tablesorter tfoot tr th {
 	background-color: #B4B4B4;
     font-weight: normal;
-	padding: 4px;
+	padding: 4px 0px 4px 2px;
 }
 table.tablesorter thead tr .header {
 	background-image: url(bg.gif);
@@ -47,7 +47,7 @@ table.tablesorter tbody tr:hover a {
     text-decoration: underline;
 }
 table.tablesorter tbody td {
-	padding: 4px;
+	padding: 4px 2px 4px 2px;
 	vertical-align: top;
 }
 table.tablesorter tbody td a, table.tablesorter tbody td a:visited {

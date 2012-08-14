@@ -122,12 +122,14 @@ function drawTable(data) {
     setTimeout(fetchPlayerData, 30000);
 }
 
+// Add a link to the CAO player page and truncate displayed name to 13 chars
 function formatPlayer(datum) {
     return '<a href="' +
            'http://crawl.akrasiac.org/scoring/players/' +
            datum[PLAYER].toLowerCase() +
            '">' +
-           datum[PLAYER] +
+           (datum[PLAYER].length > 13 ? datum[PLAYER].substring(0,13) + '…'
+                                      : datum[PLAYER]) +
            '</a>';
 }
 
