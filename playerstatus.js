@@ -17,8 +17,8 @@ var PLAYER = 0,
     VER = 1,
     GAME = 2,
     XL = 3,
-    RACE = 4,
-    ROLE = 5,
+    SP = 4,
+    BG = 5,
     PLACE = 6,
     IDLE = 7,
     VIEWERS = 8,
@@ -51,7 +51,7 @@ function formatData(data) {
 
     var fmtdata = $.extend(true, [], data);  // Recursively copy the array
     // Each array in `data` looks like this:
-    //  Player      Ver   Game   XL   Race Role Place     Idle  Vwr Server
+    //  Player      Ver   Game   XL   Sp   Bg   Place     Idle  Vwr Server
     // ["DrPraetor","git","dcss","10","Op","EE","Volcano","722","0","CAO/Term"]
     for (var i1=0; i1<data.length; i1++) {
         fmtdata[i1][PLAYER] = formatPlayer(data[i1]);  // Link to player page
@@ -76,8 +76,8 @@ function drawTable(data) {
                           '<th>Ver</th>' +
                           '<th>Game</th>' +
                           '<th>XL</th>' +
-                          '<th>Race</th>' +
-                          '<th>Role</th>' +
+                          '<th>Sp</th>' +
+                          '<th>Bg</th>' +
                           '<th>Place</th>' +
                           '<th>Idle</th>' +
                           '<th>Viewers</th>' +
@@ -128,7 +128,7 @@ function formatPlayer(datum) {
            'http://crawl.akrasiac.org/scoring/players/' +
            datum[PLAYER].toLowerCase() +
            '">' +
-           (datum[PLAYER].length > 13 ? datum[PLAYER].substring(0,13) + '…'
+           (datum[PLAYER].length > 13 ? datum[PLAYER].substring(0,12) + '…'
                                       : datum[PLAYER]) +
            '</a>';
 }
@@ -138,6 +138,10 @@ function formatPlayer(datum) {
 function formatIdle(datum) {
     var minutes = Math.floor(datum[IDLE] / 60);
     var seconds = datum[IDLE] % 60;
+
+    // Rarely the server won't d/c a super-idler and will increment forever.
+    // Return infinity rather than a useless enormous number.
+    if (minutes > 99) return '99:99';  // Or return '∞' if you feel frisky
 
     if (minutes < 10) minutes = '0' + minutes;
     if (seconds < 10) seconds = '0' + seconds;
@@ -154,7 +158,7 @@ function formatViewers(datum) {
                WATCH_URLS[datum[SERVER]] +
                datum[PLAYER].toLowerCase() +
                '">' +
-               'Watch' +
+               'Join' +
                '</a>' +
                ']';
     }

@@ -60,6 +60,7 @@ $replacement = "#$1#";
 $data = preg_replace($pattern, $replacement, $data);
 // Bonus round
 $data = str_replace("#Shoals:", "#Shoal:", $data);
+$data = str_replace("#Spider:", "#Spidr:", $data);
 $data = substr($data, 0, strlen($data)-1);  // Chop off the last pipe character
 
 /*
