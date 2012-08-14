@@ -155,12 +155,12 @@ function formatIdle(datum) {
 function formatViewers(datum) {
     if (WATCH_URLS[datum[SERVER]] !== undefined) {
         return datum[VIEWERS] +
-               ' [' +
+               '&nbsp;[' +
                '<a href="' +
                WATCH_URLS[datum[SERVER]] +
                datum[PLAYER].toLowerCase() +
                '">' +
-               'Join' +
+               'Watch' +
                '</a>' +
                ']';
     }
@@ -185,7 +185,7 @@ function isJSON(str, target) {
 $(document).ready(function() {
     $('#playerstatus').text('Retrieving data');
     // Custom parsers for sorting the "Viewers" and "Place" columns
-    // For "Viewers", strip off the "[Join]" link
+    // For "Viewers", strip off the "[Watch]" link
     $.tablesorter.addParser({
         id: 'viewers',
         is: function(s) { return false; },
