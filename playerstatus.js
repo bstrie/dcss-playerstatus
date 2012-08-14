@@ -1,5 +1,6 @@
 playerstatus = (function() {
 
+// Each target here is passed to fetch.php to perform our cross-domain requests
 var TARGETS = [{'src': 'http://crawl.develz.org/cgi-bin/dgl-status/index.html',
                 'tag': 'CDO/Term'},
                {'src': 'http://crawl.develz.org/cgi-bin/web-status/index.html',
@@ -10,31 +11,35 @@ var TARGETS = [{'src': 'http://crawl.develz.org/cgi-bin/dgl-status/index.html',
                 'tag': 'CßO/Both'},
                {'src': 'http://crawlus.somatika.net/status',
                 'tag': 'CSN/Web'}];
+// "[Watch]" links are automatically added for all targets with entries here
 var WATCH_URLS = {'CDO/Web': 'https://tiles.crawl.develz.org/#watch-',
                   'CßO/Both': 'https://crawl.s-z.org/#watch-',
                   'CSN/Web': 'http://crawlus.somatika.net:8080/#watch-'};
-var PLAYER = 0,
-    VER = 1,
-    GAME = 2,
-    XL = 3,
-    SP = 4,
-    BG = 5,
-    PLACE = 6,
-    IDLE = 7,
+// Enum for each column in the table
+var PLAYER  = 0,
+    VER     = 1,
+    GAME    = 2,
+    XL      = 3,
+    SP      = 4,
+    BG      = 5,
+    PLACE   = 6,
+    IDLE    = 7,
     VIEWERS = 8,
-    SERVER = 9;
+    SERVER  = 9;
 
+// Entry point of our infinite loop, gets data from fetch.php
 function fetchPlayerData() {
     var results = [];
     var requests = 0;
 
     $.each(TARGETS, function(i) {
         $.get('fetch.php', TARGETS[i], function(data) {
+            // Throw away data if the page is broken or if no players are on
             if (isJSON(data, TARGETS[i])) {
                 $.merge(results, JSON.parse(data));
             }
 
-            // These GETs are async. Proceed only once they're all finished
+            // These GETs are all async. Proceed only once they're all finished
             requests += 1;
             if (requests === TARGETS.length) {
                 formatData(results);
@@ -43,6 +48,7 @@ function fetchPlayerData() {
     });
 }
 
+// Gussy up our raw data
 function formatData(data) {
     // When the user-selected sort criteria cannot order two elements,
     // tablesorter falls back to ordering them via their initial order in the
@@ -112,10 +118,11 @@ function drawTable(data) {
     // Kludgy, but the best way to ensure a certain width for each th,
     // since width in ex/em is insufficient and px will vary by font.
     $('#statustable th').each(function() {
-        $(this).text($(this).text() + '\u00A0\u00A0')
+        $(this).text($(this).text() + '\u00A0\u00A0')  // \u00A0 = &nbsp;
     });
 
     var tsOptions = {sortList: sortOrder, headers: {}};
+    // Use our custom parsers to sort these columns
     tsOptions.headers[PLACE] = {sorter: 'place'};
     tsOptions.headers[VIEWERS] = {sorter: 'viewers'};
     $('#statustable').tablesorter(tsOptions);
@@ -151,7 +158,7 @@ function formatIdle(datum) {
     return minutes + ':' + seconds;
 }
 
-// Add an entry to the WATCH_URLS variable to automatically add new Watch links
+// Add an entry to the WATCH_URLS object to automatically add new [Watch] links
 function formatViewers(datum) {
     if (WATCH_URLS[datum[SERVER]] !== undefined) {
         return datum[VIEWERS] +
@@ -182,9 +189,11 @@ function isJSON(str, target) {
     return true;
 }
 
+// Begin execution
 $(document).ready(function() {
     $('#playerstatus').text('Retrieving data');
-    // Custom parsers for sorting the "Viewers" and "Place" columns
+
+    // Define custom parsers for sorting the "Viewers" and "Place" columns
     // For "Viewers", strip off the "[Watch]" link
     $.tablesorter.addParser({
         id: 'viewers',
@@ -197,16 +206,15 @@ $(document).ready(function() {
         id: 'place',
         is: function(s) { return false; },
         format: function(s) {
-            if (s.length === 3 && s.substring(0,2) === 'D:') {
+            if (s.length === 3 && s.substring(0,2) === 'D:')
                 return s.substring(0,2) + '0' + s[2];
-            }
-            else {
+            else
                 return s;
-            }
         },
         type: 'text'
     });
-    fetchPlayerData();  // Initiate the loop
+
+    fetchPlayerData();  // Initiate the infinite loop
 });
 
 })();
