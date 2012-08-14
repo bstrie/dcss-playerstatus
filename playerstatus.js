@@ -44,7 +44,9 @@ function fetchPlayerData() {
 }
 
 function formatData(data) {
-    // Sort by player name
+    // When the user-selected sort criteria cannot order two elements,
+    // tablesorter falls back to ordering them via their initial order in the
+    // table. Here we establish that initial order by sorting on player name.
     data.sort(function(a, b) {
         return a[0].toLowerCase() < b[0].toLowerCase() ? -1 : 1;
     });
@@ -98,10 +100,10 @@ function drawTable(data) {
     tablehtml += '</tbody></table>';
 
     // By default, sort on first column (player name)
-    var sort = [[0,0]];
+    var sortOrder = [[0,0]];
     // Remember our sort order across updates
     if ($('#statustable').length > 0 && $('#statustable')[0].config) {
-       sort = $('#statustable')[0].config.sortList;
+       sortOrder = $('#statustable')[0].config.sortList;
     }
 
     $('#playerstatus').html(tablehtml);
@@ -113,10 +115,10 @@ function drawTable(data) {
         $(this).text($(this).text() + '\u00A0\u00A0')
     });
 
-    $('#statustable').tablesorter({
-        sortList: sort,
-        headers: {7: {sorter: 'viewers'}}  // Sort Viewers with custom parser
-    });
+    var tsOptions = {sortList: sortOrder, headers: {}};
+    tsOptions.headers[PLACE] = {sorter: 'place'};
+    tsOptions.headers[VIEWERS] = {sorter: 'viewers'};
+    $('#statustable').tablesorter(tsOptions);
 
     // Do it all over again every 30 secs
     setTimeout(fetchPlayerData, 30000);
@@ -182,12 +184,27 @@ function isJSON(str, target) {
 
 $(document).ready(function() {
     $('#playerstatus').text('Retrieving data');
-    // A custom parser for sorting the "Viewers" column
+    // Custom parsers for sorting the "Viewers" and "Place" columns
+    // For "Viewers", strip off the "[Join]" link
     $.tablesorter.addParser({
         id: 'viewers',
         is: function(s) { return false; },
         format: function(s) { return parseInt(s.split(' ')[0]); },
         type: 'numeric'
+    });
+    // For "Place", sort "D:2" before "D:10"
+    $.tablesorter.addParser({
+        id: 'place',
+        is: function(s) { return false; },
+        format: function(s) {
+            if (s.length === 3 && s.substring(0,2) === 'D:') {
+                return s.substring(0,2) + '0' + s[2];
+            }
+            else {
+                return s;
+            }
+        },
+        type: 'text'
     });
     fetchPlayerData();  // Initiate the loop
 });
