@@ -117,7 +117,7 @@ function drawTable(data) {
                  '</span>' +
                  '<span id="github">' +
                    '<a href="https://github.com/bstrie/dcss-playerstatus/">' +
-                     'Get the code for this app on Github' +
+                     'Get the code for this app at Github' +
                    '</a>' +
                  '</span>';
 
