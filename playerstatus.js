@@ -78,20 +78,20 @@ function drawTable(data) {
                       'Tip: shift-click on column headings ' +
                       'to sort by multiple columns at once.' +
                     '</span>' +
-                      '<table id="statustable" class="tablesorter">' +
-                        '<thead><tr>' +
-                          '<th>Player</th>' +
-                          '<th>Ver</th>' +
-                          '<th>Game</th>' +
-                          '<th>XL</th>' +
-                          '<th>Sp</th>' +
-                          '<th>Bg</th>' +
-                          '<th>Place</th>' +
-                          '<th>Idle</th>' +
-                          '<th>Viewers</th>' +
-                          '<th>Server</th>' +
-                        '</tr></thead>' +
-                        '<tbody>';
+                    '<table id="statustable" class="tablesorter">' +
+                      '<thead><tr>' +
+                        '<th>Player</th>' +
+                        '<th>Ver</th>' +
+                        '<th>Game</th>' +
+                        '<th>XL</th>' +
+                        '<th>Sp</th>' +
+                        '<th>Bg</th>' +
+                        '<th>Place</th>' +
+                        '<th>Idle</th>' +
+                        '<th>Viewers</th>' +
+                        '<th>Server</th>' +
+                      '</tr></thead>' +
+                      '<tbody>';
 
     // Each row of the table body
     for (var i1=0; i1<data.length; i1++) {
