@@ -121,8 +121,8 @@ function drawTable(data) {
                    '</a>' +
                  '</span>';
 
-    // By default, sort on first column (player name)
-    var sortOrder = [[0,0]];
+    // By default, sort by "Viewers", descending
+    var sortOrder = [[VIEWERS, 1]];
     // Remember our sort order across updates
     if ($('#statustable').length > 0 && $('#statustable')[0].config) {
        sortOrder = $('#statustable')[0].config.sortList;
