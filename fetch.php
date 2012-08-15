@@ -40,7 +40,7 @@ $data = preg_replace($pattern, $replacement, $data);  // char -> race#role
 $data = str_replace("##", "#####", $data);  // If field three was totally blank
 // If only servers could agree on compact, uniform game/version names...
 $data = str_replace("#dc-anc#", "#dcss-old#", $data);  // Ancient crawl
-$data = str_replace("#Lost in Time#", "#?#?#?#?#", $data);  // Ancient crawl
+$data = str_replace("#Lost In Time#", "#?#?#?#?#", $data);  // Ancient crawl
 $data = str_replace("-web-trunk", "-git", $data);  // CSN
 $data = str_replace("-svn", "-git", $data);  // CAO
 $data = str_replace("#Crawl-", "#dcss-", $data);  // CAO
