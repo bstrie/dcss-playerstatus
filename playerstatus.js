@@ -103,7 +103,12 @@ function drawTable(data) {
         tablehtml += '</tr>';
     }
 
-    tablehtml += '</tbody></table>';
+    tablehtml += '</tbody></table>' +
+                 '<span id="info">' +
+                   '<a href="https://github.com/bstrie/dcss-playerstatus/">' +
+                     'Get the code for this app on Github' +
+                   '</a>' +
+                 '</span>';
 
     // By default, sort on first column (player name)
     var sortOrder = [[0,0]];

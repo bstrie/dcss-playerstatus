@@ -3,67 +3,83 @@ div#playerstatus {
   font-family: "PragmataPro", menlo, "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Courier New", monospace;
   font-size: 13px;
 }
+div#playerstatus span#games,
+div#playerstatus span#tip {
+  margin: 0 5px 8px;
+}
+div#playerstatus span#info {
+  margin: 8px 5px;
+}
 div#playerstatus span#games {
   float: left;
-  margin: 0 4px 8px;
+  color: #111111;
 }
 div#playerstatus span#tip {
   float: right;
-  margin: 0 4px 8px;
   color: #666666;
 }
-table.tablesorter {
+div#playerstatus span#info {
+  float: right;
+}
+div#playerstatus span#info a,
+div#playerstatus span#info a:visited {
+  color: #666666;
+}
+div#playerstatus table.tablesorter {
   clear: both;
   background-color: #000000;
-  margin:10px 0pt 15px;
+  margin: 0;
   width: 100%;
   text-align: left;
 }
-table.tablesorter thead tr th, table.tablesorter tfoot tr th {
+div#playerstatus table.tablesorter thead tr th,
+div#playerstatus table.tablesorter tfoot tr th {
   background-color: #B4B4B4;
   font-weight: normal;
   padding: 4px 0px 4px 3px;
 }
-table.tablesorter thead tr .header {
+div#playerstatus table.tablesorter thead tr .header {
   background-image: url(bg.gif);
   background-repeat: no-repeat;
   background-position: center right;
   cursor: pointer;
 }
-table.tablesorter tbody tr {
+div#playerstatus table.tablesorter tbody tr {
   background-color: #0F0F0F;
   color: #B4B4B4;
   cursor: default;
 }
-table.tablesorter tbody tr:nth-child(even) {
+div#playerstatus table.tablesorter tbody tr:nth-child(even) {
   background-color: #1E1E1E;
 }
-table.tablesorter tbody tr:hover {
+div#playerstatus table.tablesorter tbody tr:hover {
   color: #FFFFFF;
   /*background-color: #2D2D2D;*/
 }
-table.tablesorter tbody tr:hover a,
-table.tablesorter tbody tr:hover a:visited {
+div#playerstatus table.tablesorter tbody tr:hover a,
+div#playerstatus table.tablesorter tbody tr:hover a:visited {
   color: #FFFFFF;
   text-decoration: underline;
 }
-table.tablesorter tbody td {
+div#playerstatus table.tablesorter tbody td {
   padding: 4px 3px 4px 3px;
   vertical-align: top;
 }
-table.tablesorter tbody td a, table.tablesorter tbody td a:visited {
+div#playerstatus table.tablesorter tbody td a,
+div#playerstatus table.tablesorter tbody td a:visited {
   color: #B4B4B4;
   text-decoration: none;
 }
-table.tablesorter thead tr .headerSortUp {
+div#playerstatus table.tablesorter thead tr .headerSortUp {
   background-image: url(asc.gif);
 }
-table.tablesorter thead tr .headerSortDown {
+div#playerstatus table.tablesorter thead tr .headerSortDown {
   background-image: url(desc.gif);
 }
-table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
+div#playerstatus table.tablesorter thead tr .headerSortDown,
+div#playerstatus table.tablesorter thead tr .headerSortUp {
   background-color: #DCDCDC;
 }
-table.tablesorter thead tr th:hover, table.tablesorter thead tr th:hover {
+div#playerstatus table.tablesorter thead tr th:hover {
   background-color: #F0F0F0;
 }
