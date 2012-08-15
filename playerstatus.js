@@ -26,6 +26,8 @@ var PLAYER  = 0,
     IDLE    = 7,
     VIEWERS = 8,
     SERVER  = 9;
+// In the "Player" column, truncate any names longer than this
+var MAX_NAME_LEN = 13;
 
 // Entry point of our infinite loop, gets data from fetch.php
 function fetchPlayerData() {
@@ -136,14 +138,15 @@ function drawTable(data) {
     setTimeout(fetchPlayerData, 30000);
 }
 
-// Add a link to the CAO player page and truncate displayed name to 13 chars
+// Add link to the CAO player page and truncate names longer than MAX_NAME_LEN
 function formatPlayer(datum) {
     return '<a href="' +
            'http://crawl.akrasiac.org/scoring/players/' +
            datum[PLAYER].toLowerCase() +
            '">' +
-           (datum[PLAYER].length > 13 ? datum[PLAYER].substring(0,12) + '…'
-                                      : datum[PLAYER]) +
+           (datum[PLAYER].length > MAX_NAME_LEN
+            ? datum[PLAYER].substring(0, MAX_NAME_LEN-1) + '…'
+            : datum[PLAYER]) +
            '</a>';
 }
 
