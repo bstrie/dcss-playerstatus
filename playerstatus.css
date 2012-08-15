@@ -1,7 +1,7 @@
 /* Adapted from tablesorter's basic blue theme */
 div#playerstatus {
-  font-family: menlo, "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Courier New", monospace;
-  font-size: 8pt;
+  font-family: "PragmataPro", menlo, "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Courier New", monospace;
+  font-size: 13px;
 }
 div#playerstatus span#games {
   float: left;
