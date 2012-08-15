@@ -41,9 +41,9 @@ div#playerstatus table.tablesorter thead tr th,
 div#playerstatus table.tablesorter tfoot tr th {
   background-color: #B4B4B4;
   font-weight: normal;
-  padding: 4px 0px 4px 3px;
+  padding: 4px 3px;
 }
-div#playerstatus table.tablesorter thead tr .header {
+div#playerstatus table.tablesorter thead tr th.header {
   background-image: url(bg.gif);
   background-repeat: no-repeat;
   background-position: center right;
@@ -75,14 +75,14 @@ div#playerstatus table.tablesorter tbody td a:visited {
   color: #B4B4B4;
   text-decoration: none;
 }
-div#playerstatus table.tablesorter thead tr .headerSortUp {
+div#playerstatus table.tablesorter thead tr th.headerSortUp {
   background-image: url(asc.gif);
 }
-div#playerstatus table.tablesorter thead tr .headerSortDown {
+div#playerstatus table.tablesorter thead tr th.headerSortDown {
   background-image: url(desc.gif);
 }
-div#playerstatus table.tablesorter thead tr .headerSortDown,
-div#playerstatus table.tablesorter thead tr .headerSortUp {
+div#playerstatus table.tablesorter thead tr th.headerSortDown,
+div#playerstatus table.tablesorter thead tr th.headerSortUp {
   background-color: #DCDCDC;
 }
 div#playerstatus table.tablesorter thead tr th:hover {

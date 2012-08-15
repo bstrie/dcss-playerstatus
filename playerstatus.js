@@ -1,4 +1,3 @@
-// TODO: enforce a minimum width on each column via padding &nbsp; in th
 playerstatus = (function() {
 
 // Each target here is passed to fetch.php to perform our cross-domain requests
@@ -85,7 +84,11 @@ function drawTable(data) {
                     '</span>' +
                     '<table id="statustable" class="tablesorter">' +
                       '<thead><tr>' +
-                        '<th>Player</th>' +
+                        '<th>' +
+                          'Player' +  // Keep column at max character length
+                          // Equivalent to `"mystring" * mynumber` in Python
+                          Array(MAX_NAME_LEN-7).join('&nbsp;') +
+                        '</th>' +
                         '<th>Ver</th>' +
                         '<th>Game</th>' +
                         '<th>XL</th>' +
@@ -127,9 +130,8 @@ function drawTable(data) {
 
     $('#playerstatus').html(tablehtml);
 
-    // Need to make sure there's room for the sort icons.
-    // Kludgy, but the best way to ensure a certain width for each th,
-    // since width in ex/em is insufficient and px will vary by font.
+    // Append two &nbsp; to each th, to make sure there's room for the icons.
+    // Kludgy, but it works well.
     $('#statustable th').each(function() {
         $(this).text($(this).text() + '\u00A0\u00A0')  // \u00A0 = &nbsp;
     });
