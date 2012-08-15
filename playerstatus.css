@@ -42,7 +42,8 @@ table.tablesorter tbody tr:hover {
   color: #FFFFFF;
   /*background-color: #2D2D2D;*/
 }
-table.tablesorter tbody tr:hover a {
+table.tablesorter tbody tr:hover a,
+table.tablesorter tbody tr:hover a:visited {
   color: #FFFFFF;
   text-decoration: underline;
 }
