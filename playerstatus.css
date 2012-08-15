@@ -7,7 +7,8 @@ div#playerstatus span#games,
 div#playerstatus span#tip {
   margin: 0 5px 8px;
 }
-div#playerstatus span#info {
+div#playerstatus span#interval,
+div#playerstatus span#github {
   margin: 8px 5px;
 }
 div#playerstatus span#games {
@@ -18,11 +19,15 @@ div#playerstatus span#tip {
   float: right;
   color: #666666;
 }
-div#playerstatus span#info {
+div#playerstatus span#interval {
+  float: left;
+  color: #666666;
+}
+div#playerstatus span#github {
   float: right;
 }
-div#playerstatus span#info a,
-div#playerstatus span#info a:visited {
+div#playerstatus span#github a,
+div#playerstatus span#github a:visited {
   color: #666666;
 }
 div#playerstatus table.tablesorter {

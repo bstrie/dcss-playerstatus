@@ -1,4 +1,5 @@
 <?php
+#FIXME: ancient versions of crawl still parse weird
 $src = $_GET['src'];  // Target URL
 $tag = $_GET['tag'];  // Server ID
 

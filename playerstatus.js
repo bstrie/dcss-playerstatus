@@ -1,3 +1,4 @@
+// TODO: enforce a minimum width on each column via padding &nbsp; in th
 playerstatus = (function() {
 
 // Each target here is passed to fetch.php to perform our cross-domain requests
@@ -28,6 +29,8 @@ var PLAYER  = 0,
     SERVER  = 9;
 // In the "Player" column, truncate any names longer than this
 var MAX_NAME_LEN = 13;
+// Milliseconds between data reload
+var RELOAD_INTERVAL = 30000;
 
 // Entry point of our infinite loop, gets data from fetch.php
 function fetchPlayerData() {
@@ -78,7 +81,7 @@ function drawTable(data) {
                     '</span>' +
                     '<span id="tip">' +
                       'Tip: shift-click on column headings ' +
-                      'to sort by multiple columns at once.' +
+                      'to sort by multiple columns at once' +
                     '</span>' +
                     '<table id="statustable" class="tablesorter">' +
                       '<thead><tr>' +
@@ -106,7 +109,10 @@ function drawTable(data) {
     }
 
     tablehtml += '</tbody></table>' +
-                 '<span id="info">' +
+                 '<span id="interval">' +
+                   'Data updated every ' + RELOAD_INTERVAL/1000 + ' seconds' +
+                 '</span>' +
+                 '<span id="github">' +
                    '<a href="https://github.com/bstrie/dcss-playerstatus/">' +
                      'Get the code for this app on Github' +
                    '</a>' +
@@ -135,7 +141,7 @@ function drawTable(data) {
     $('#statustable').tablesorter(tsOptions);
 
     // Do it all over again every 30 secs
-    setTimeout(fetchPlayerData, 30000);
+    setTimeout(fetchPlayerData, RELOAD_INTERVAL);
 }
 
 // Add link to the CAO player page and truncate names longer than MAX_NAME_LEN
