@@ -58,7 +58,7 @@ function formatData(data) {
     // tablesorter falls back to ordering them via their initial order in the
     // table. Here we establish that initial order by sorting on player name.
     data.sort(function(a, b) {
-        return a[0].toLowerCase() < b[0].toLowerCase() ? -1 : 1;
+        return a[PLAYER].toLowerCase() < b[PLAYER].toLowerCase() ? -1 : 1;
     });
 
     var fmtdata = $.extend(true, [], data);  // Recursively copy the array
@@ -85,9 +85,9 @@ function drawTable(data) {
                     '<table id="statustable" class="tablesorter">' +
                       '<thead><tr>' +
                         '<th>' +
-                          'Player' +  // Keep column at max character length
+                          'Player' +  // Keep this column at max name length
                           // Equivalent to `"mystring" * mynumber` in Python
-                          Array(MAX_NAME_LEN-7).join('&nbsp;') +
+                          Array(MAX_NAME_LEN - 6 - 2 + 1).join('&nbsp;') +
                         '</th>' +
                         '<th>Ver</th>' +
                         '<th>Game</th>' +
