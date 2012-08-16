@@ -1,5 +1,4 @@
 <?php
-#FIXME: ancient versions of crawl still parse weird
 $src = $_GET['src'];  // Target URL
 $tag = $_GET['tag'];  // Server ID
 
@@ -31,6 +30,7 @@ servers could respond in JSON, using standardized formats... but such is life.
 // We'll use | as our record delimiter as it won't appear in the dgl output.
 $data = str_replace("\n", ($tag . '|'), $data);
 // Field three represents four data points: xl, race, role, and place.
+$data = str_replace("#Lost in Time#", "#?#?#?#?#", $data);  // Ancient crawl
 $data = str_replace(", ", "#", $data);  // ", " separates char and place
 $data = str_replace("  ", " ", $data);  // If two spaces delimit xl and char
 $data = str_replace(" ", "#", $data);  // The space between xl and char
@@ -40,7 +40,6 @@ $data = preg_replace($pattern, $replacement, $data);  // char -> race#role
 $data = str_replace("##", "#####", $data);  // If field three was totally blank
 // If only servers could agree on compact, uniform game/version names...
 $data = str_replace("#dc-anc#", "#dcss-old#", $data);  // Ancient crawl
-$data = str_replace("#Lost In Time#", "#?#?#?#?#", $data);  // Ancient crawl
 $data = str_replace("-web-trunk", "-git", $data);  // CSN
 $data = str_replace("-svn", "-git", $data);  // CAO
 $data = str_replace("#Crawl-", "#dcss-", $data);  // CAO
