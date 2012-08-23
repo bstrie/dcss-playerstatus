@@ -65,11 +65,11 @@ function formatData(data) {
     // Each array in `data` looks like this:
     //  Player      Ver   Game   XL   Sp   Bg   Place     Idle  Vwr Server
     // ["DrPraetor","git","dcss","10","Op","EE","Volcano","722","0","CAO/Term"]
-    for (var i1=0; i1<data.length; i1++) {
+    $.each(data, function(i1) {
         fmtdata[i1][PLAYER] = formatPlayer(data[i1]);  // Link to player page
         fmtdata[i1][IDLE] = formatIdle(data[i1]);  // Turn seconds into 00:00
         fmtdata[i1][VIEWERS] = formatViewers(data[i1]);  // Link to watch page
-    }
+    });
 
     drawTable(fmtdata);
 }
@@ -101,15 +101,14 @@ function drawTable(data) {
                       '</tr></thead>' +
                       '<tbody>';
 
-    // Each row of the table body
-    for (var i1=0; i1<data.length; i1++) {
+    // Iterate over each row and cell
+    $.each(data, function(i1) {
         tablehtml += '<tr>';
-        // Each column
-        for (var i2=0; i2<data[i1].length; i2++) {
+        $.each(data[i1], function(i2) {
             tablehtml += '<td>' + data[i1][i2] + '</td>';
-        }
+        });
         tablehtml += '</tr>';
-    }
+    });
 
     tablehtml += '</tbody></table>' +
                  '<span id="interval">' +
