@@ -115,7 +115,8 @@ function drawTable(data) {
                    'Data updated every ' + RELOAD_INTERVAL/1000 + ' seconds' +
                  '</span>' +
                  '<span id="github">' +
-                   '<a href="https://github.com/bstrie/dcss-playerstatus/">' +
+                   '<a target="_blank"' +
+                   ' href="https://github.com/bstrie/dcss-playerstatus/">' +
                      'Get the code for this app at Github' +
                    '</a>' +
                  '</span>';
@@ -147,8 +148,8 @@ function drawTable(data) {
 
 // Add link to the CAO player page and truncate names longer than MAX_NAME_LEN
 function formatPlayer(datum) {
-    return '<a href="' +
-           'http://crawl.akrasiac.org/scoring/players/' +
+    return '<a target="_blank"' +
+           ' href="http://crawl.akrasiac.org/scoring/players/' +
            datum[PLAYER].toLowerCase() +
            '">' +
            (datum[PLAYER].length > MAX_NAME_LEN
@@ -178,7 +179,7 @@ function formatViewers(datum) {
     if (WATCH_URLS[datum[SERVER]] !== undefined) {
         return datum[VIEWERS] +
                '&nbsp;[' +
-               '<a href="' +
+               '<a target="_blank" href="' +
                WATCH_URLS[datum[SERVER]] +
                datum[PLAYER].toLowerCase() +
                '">' +
