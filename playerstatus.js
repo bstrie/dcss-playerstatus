@@ -87,6 +87,9 @@ function drawTable(data) {
                         '<th>' +
                           'Player' +  // Keep this column at max name length
                           // Equivalent to `"mystring" * mynumber` in Python
+                          // -6 for the length of "players"
+                          // -2 for the spaces we tack on later
+                          // +1 for terrible hacks
                           Array(MAX_NAME_LEN - 6 - 2 + 1).join('&nbsp;') +
                         '</th>' +
                         '<th>Ver</th>' +
@@ -210,7 +213,7 @@ $(document).ready(function() {
     $('#playerstatus').text('Retrieving data');
 
     // Define custom parsers for sorting the "Viewers" and "Place" columns
-    // For "Viewers", strip off the "[Watch]" link
+    // For "Viewers", strip off the "[Watch]" link before sorting
     $.tablesorter.addParser({
         id: 'viewers',
         is: function(s) { return false; },

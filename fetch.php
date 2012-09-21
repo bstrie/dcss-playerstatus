@@ -66,7 +66,7 @@ $data = substr($data, 0, strlen($data)-1);  // Chop off the last pipe character
 /*
 So now we have something that looks like this:
 
-Chapayev#0.9#dcss#12#NaVM#Lair:6#2#0#CAO/Term|crate#git#dcss#3#OgBe#D:2#0#0#CAO/Term|demonblade#git##dcss###1915#0#CAO/Term
+Chapayev#0.9#dcss#12#Na#VM#Lair:6#51#0#CAO/Term|crate#git#dcss#3#OgBe#D:2#0#0#CAO/Term|demonblade#git##dcss###1915#0#CAO/Term
 
 Let's transform it into JSON.
 */
