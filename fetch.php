@@ -40,7 +40,8 @@ $data = preg_replace($pattern, $replacement, $data);  // char -> race#role
 $data = str_replace("##", "#####", $data);  // If field three was totally blank
 // If only servers could agree on compact, uniform game/version names...
 $data = str_replace("#dc-anc#", "#dcss-old#", $data);  // Ancient crawl
-$data = str_replace("-web-trunk", "-git", $data);  // CSN
+$data = str_replace("-web", "", $data);  // CSN
+$data = str_replace("-trunk", "-git", $data);  // CSN
 $data = str_replace("-svn", "-git", $data);  // CDO
 $data = str_replace("#sprint-", "#spr-", $data);  // CSN
 // CDO sends us "spr-0.8" but we want "0.8-spr"
