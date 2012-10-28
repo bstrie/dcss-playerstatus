@@ -6,13 +6,14 @@ var TARGETS = [{'src': 'http://crawl.develz.org/cgi-bin/dgl-status/index.html',
                {'src': 'http://crawl.develz.org/cgi-bin/web-status/index.html',
                 'tag': 'CDO/Web'},
                {'src': 'http://crawl.akrasiac.org/cgi-bin/dgl-status/index.html',
-                'tag': 'CAO/Term'},
+                'tag': 'CAO/Both'},
                {'src': 'http://dobrazupa.org/cgi-bin/dgl-status',
                 'tag': 'CßO/Both'},
                {'src': 'http://crawlus.somatika.net/status',
                 'tag': 'CSN/Web'}];
 // "[Watch]" links are automatically added for all targets with entries here
 var WATCH_URLS = {'CDO/Web': 'https://tiles.crawl.develz.org/#watch-',
+                  'CAO/Both': 'http://crawl.akrasiac.org:8080/#watch-',
                   'CßO/Both': 'https://crawl.s-z.org/#watch-',
                   'CSN/Web': 'http://crawlus.somatika.net:8080/#watch-'};
 // Enum for each column in the table
