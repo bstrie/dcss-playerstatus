@@ -1,21 +1,22 @@
 playerstatus = (function() {
 
 // Each target here is passed to fetch.php to perform our cross-domain requests
-var TARGETS = [{'src': 'http://crawl.develz.org/cgi-bin/dgl-status/index.html',
-                'tag': 'CDO/Term'},
-               {'src': 'http://crawl.develz.org/cgi-bin/web-status/index.html',
-                'tag': 'CDO/Web'},
+var TARGETS = [
+               {'src': 'http://crawl.develz.org/cgi-bin/dgl-status/index.html',
+                'tag': 'CDO'},
                {'src': 'http://crawl.akrasiac.org/cgi-bin/dgl-status/index.html',
-                'tag': 'CAO/Both'},
+                'tag': 'CAO'},
                {'src': 'http://dobrazupa.org/cgi-bin/dgl-status',
-                'tag': 'CßO/Both'},
-               {'src': 'http://crawlus.somatika.net/status',
-                'tag': 'CSN/Web'}];
+                'tag': 'CßO'},
+               {'src': 'http://crawl.lantea.net/cgi-bin/dgl-status',
+                'tag': 'CLAN'},
+              ];
 // "[Watch]" links are automatically added for all targets with entries here
-var WATCH_URLS = {'CDO/Web': 'https://tiles.crawl.develz.org/#watch-',
-                  'CAO/Both': 'http://crawl.akrasiac.org:8080/#watch-',
-                  'CßO/Both': 'https://crawl.s-z.org/#watch-',
-                  'CSN/Web': 'http://crawlus.somatika.net:8080/#watch-'};
+var WATCH_URLS = {
+                  'CAO': 'http://crawl.akrasiac.org:8080/#watch-',
+                  'CßO': 'https://crawl.s-z.org/#watch-',
+                  'CLAN': 'http://crawl.lantea.net:8080/#watch-',
+                 };
 // Enum for each column in the table
 var PLAYER  = 0,
     VER     = 1,
@@ -26,7 +27,7 @@ var PLAYER  = 0,
     PLACE   = 6,
     IDLE    = 7,
     VIEWERS = 8,
-    SERVER  = 9;
+    HOST    = 9;
 // In the "Player" column, truncate any names longer than this
 var MAX_NAME_LEN = 13;
 // Milliseconds between data reload
@@ -64,8 +65,8 @@ function formatData(data) {
 
     var fmtdata = $.extend(true, [], data);  // Recursively copy the array
     // Each array in `data` looks like this:
-    //  Player      Ver   Game   XL   Sp   Bg   Place     Idle  Vwr Server
-    // ["DrPraetor","git","dcss","10","Op","EE","Volcano","722","0","CAO/Term"]
+    //  Player      Ver   Game   XL   Sp   Bg   Place     Idle  Vwr Host
+    // ["DrPraetor","git","dcss","10","Op","EE","Volcano","722","0","CAO"]
     $.each(data, function(i1) {
         fmtdata[i1][PLAYER] = formatPlayer(data[i1]);  // Link to player page
         fmtdata[i1][IDLE] = formatIdle(data[i1]);  // Turn seconds into 00:00
@@ -101,7 +102,7 @@ function drawTable(data) {
                         '<th>Place</th>' +
                         '<th>Idle</th>' +
                         '<th>Viewers</th>' +
-                        '<th>Server</th>' +
+                        '<th>Host</th>' +
                       '</tr></thead>' +
                       '<tbody>';
 
@@ -180,11 +181,11 @@ function formatIdle(datum) {
 
 // Add an entry to the WATCH_URLS object to automatically add new [Watch] links
 function formatViewers(datum) {
-    if (WATCH_URLS[datum[SERVER]] !== undefined) {
+    if (WATCH_URLS[datum[HOST]] !== undefined) {
         return datum[VIEWERS] +
                '&nbsp;[' +
                '<a target="_blank" href="' +
-               WATCH_URLS[datum[SERVER]] +
+               WATCH_URLS[datum[HOST]] +
                datum[PLAYER].toLowerCase() +
                '">' +
                'Watch' +
