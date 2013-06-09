@@ -65,8 +65,8 @@ function formatData(data) {
 
     var fmtdata = $.extend(true, [], data);  // Recursively copy the array
     // Each array in `data` looks like this:
-    //  Player      Ver   Game   XL   Sp   Bg   Place     Idle  Vwr Host
-    // ["DrPraetor","git","dcss","10","Op","EE","Volcano","722","0","CAO"]
+    //  Player      Versn   Game   XL   Sp   Bg   Place     Idle  Vwr Host
+    // ["DrPraetor","trunk","dcss","10","Op","EE","Volcano","722","0","CAO"]
     $.each(data, function(i1) {
         fmtdata[i1][PLAYER] = formatPlayer(data[i1]);  // Link to player page
         fmtdata[i1][IDLE] = formatIdle(data[i1]);  // Turn seconds into 00:00
@@ -94,7 +94,7 @@ function drawTable(data) {
                           // +1 for terrible hacks
                           Array(MAX_NAME_LEN - 6 - 2 + 1).join('&nbsp;') +
                         '</th>' +
-                        '<th>Ver</th>' +
+                        '<th>Versn</th>' +
                         '<th>Game</th>' +
                         '<th>XL</th>' +
                         '<th>Sp</th>' +

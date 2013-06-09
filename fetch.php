@@ -27,6 +27,8 @@ string replacement and regexes. This is hilariously fragile! If only the
 servers could respond in JSON, using standardized formats... but such is life.
 */
 
+/* Lasciate ogne speranza, voi ch'intrate. */
+
 // We'll use | as our record delimiter as it won't appear in the dgl output.
 $data = str_replace("\n", ($tag . '|'), $data);
 // Field three represents four data points: xl, race, role, and place.
@@ -40,12 +42,10 @@ $data = preg_replace($pattern, $replacement, $data);  // char -> race#role
 $data = str_replace("##", "#####", $data);  // If field three was totally blank
 // If only servers could agree on compact, uniform game/version names...
 $data = str_replace("#dc-anc#", "#dcss-old#", $data);  // Ancient crawl
-$data = str_replace("-web", "", $data);  // CSN
-$data = str_replace("-trunk", "-git", $data);  // CSN
-$data = str_replace("-svn", "-git", $data);  // CDO
-$data = str_replace("#sprint-", "#spr-", $data);  // CSN
+$data = str_replace("-git", "-trunk", $data);
+$data = str_replace("-svn", "-trunk", $data);  // CDO
 // CDO sends us "spr-0.8" but we want "0.8-spr"
-$pattern = "/#(dcss|spr|zd|tut)-([\d\.a-zA-Z]{3,4})#/";
+$pattern = "/#(dcss|spr|zd|tut)-([\d\.a-zA-Z]{3,5})#/";
 $replacement = "#$2#$1#";
 $data = preg_replace($pattern, $replacement, $data);
 // We hate termsize!
@@ -59,6 +59,7 @@ $data = preg_replace($pattern, $replacement, $data);
 // Bonus round
 $data = str_replace("#Shoals:", "#Shoal:", $data);
 $data = str_replace("#Spider:", "#Spidr:", $data);
+$data = str_replace("#Vaults:", "#Vault:", $data);
 $data = substr($data, 0, strlen($data)-1);  // Chop off the last pipe character
 
 /*
