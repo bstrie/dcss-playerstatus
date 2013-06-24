@@ -6,8 +6,8 @@ var TARGETS = [
                 'tag': 'CDO'},
                {'src': 'http://crawl.akrasiac.org/cgi-bin/dgl-status/index.html',
                 'tag': 'CAO'},
-               {'src': 'http://dobrazupa.org/cgi-bin/dgl-status',
-                'tag': 'CSZO'},
+               /*{'src': 'http://dobrazupa.org/cgi-bin/dgl-status',
+                'tag': 'CSZO'},*/
                {'src': 'http://crawl.lantea.net/cgi-bin/dgl-status',
                 'tag': 'CLAN'},
                {'src': 'http://rl.heh.fi/dgl-status',
