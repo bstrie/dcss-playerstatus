@@ -7,15 +7,18 @@ var TARGETS = [
                {'src': 'http://crawl.akrasiac.org/cgi-bin/dgl-status/index.html',
                 'tag': 'CAO'},
                {'src': 'http://dobrazupa.org/cgi-bin/dgl-status',
-                'tag': 'CßO'},
+                'tag': 'CSZO'},
                {'src': 'http://crawl.lantea.net/cgi-bin/dgl-status',
                 'tag': 'CLAN'},
+               {'src': 'http://rl.heh.fi/dgl-status',
+                'tag': 'RHF'},
               ];
 // "[Watch]" links are automatically added for all targets with entries here
 var WATCH_URLS = {
                   'CAO': 'http://crawl.akrasiac.org:8080/#watch-',
-                  'CßO': 'https://crawl.s-z.org/#watch-',
+                  'CSZO': 'https://crawl.s-z.org/#watch-',
                   'CLAN': 'http://crawl.lantea.net:8080/#watch-',
+                  'RHF': 'http://rl.heh.fi:8080/#watch-',
                  };
 // Enum for each column in the table
 var PLAYER  = 0,
