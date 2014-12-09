@@ -1,8 +1,8 @@
 <?php
-$src = $_GET['src'];  // Target URL
-$tag = $_GET['tag'];  // Server ID
+$data_url = $_GET['data_url'];  // Target URL
+$server = $_GET['server'];  // Server ID
 
-$data = file_get_contents($src);
+$data = file_get_contents($data_url);
 
 /*
 The dgl-status output that we receive looks like this:
@@ -13,7 +13,7 @@ elliptic#dcss-svn#L24 MuEn, Elf:5#80x24#1#3#
 ZChris13#spr-svn##80x24#1730#0#
 
 We want to transform it in the following ways:
-1. Insert the server tag at the end of each record.
+1. Insert the server acronym at the end of each record.
 2. Split out the third field into four subfields.
 3. Transform each server's idiosyncratic game/version identifiers (found in
    field 2) into a more uniform representation.
@@ -30,7 +30,7 @@ servers could respond in JSON, using standardized formats... but such is life.
 /* Lasciate ogne speranza, voi ch'intrate. */
 
 // We'll use | as our record delimiter as it won't appear in the dgl output.
-$data = str_replace("\n", ($tag . '|'), $data);
+$data = str_replace("\n", ($server . '|'), $data);
 // Field three represents four data points: xl, race, role, and place.
 $data = str_replace("#Lost in Time#", "#?#?#?#?#", $data);  // Ancient crawl
 $data = str_replace(", ", "#", $data);  // ", " separates char and place

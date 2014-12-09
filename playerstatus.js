@@ -1,38 +1,61 @@
 playerstatus = (function() {
 
-// Each target here is passed to fetch.php to perform our cross-domain requests
-var TARGETS = [
-               {'src': 'http://crawl.develz.org/cgi-bin/dgl-status/index.html',
-                'tag': 'CDO'},
-               {'src': 'http://crawl.akrasiac.org/cgi-bin/dgl-status/index.html',
-                'tag': 'CAO'},
-               /*{'src': 'http://dobrazupa.org/cgi-bin/dgl-status',
-                'tag': 'CSZO'},*/
-               {'src': 'http://crawl.lantea.net/cgi-bin/dgl-status',
-                'tag': 'CLAN'},
-               {'src': 'http://rl.heh.fi/dgl-status',
-                'tag': 'RHF'},
-              ];
-// "[Watch]" links are automatically added for all targets with entries here
-var WATCH_URLS = {
-                  'CAO': 'http://crawl.akrasiac.org:8080/#watch-',
-                  'CSZO': 'https://crawl.s-z.org/#watch-',
-                  'CLAN': 'http://crawl.lantea.net:8080/#watch-',
-                  'RHF': 'http://rl.heh.fi:8080/#watch-',
-                 };
+// Add new hosts to this object
+var SERVERS = {
+    'CAO': {
+        'data_url': 'http://crawl.akrasiac.org/cgi-bin/dgl-status/index.html',
+        'watch_url': 'http://crawl.akrasiac.org:8080/#watch-',
+    },
+    'CDO': {
+        'data_url': 'http://crawl.develz.org/cgi-bin/dgl-status/index.html',
+        'watch_url': null,
+    },
+    'CSZO': {
+        'data_url': 'http://dobrazupa.org/cgi-bin/dgl-status',
+        'watch_url': 'https://crawl.s-z.org/#watch-',
+    },
+    /*'CLAN': {
+        'data_url': 'http://crawl.lantea.net/cgi-bin/dgl-status',  // Times out from PHP?
+        'watch_url': 'http://crawl.lantea.net:8080/#watch-',
+    },*/
+    'CBRO': {
+        'data_url': 'http://crawl.berotato.org/cgi-bin/dgl-status',
+        'watch_url': 'http://crawl.berotato.org:8080/#watch-',
+    },
+    /*'CKR': {
+        'data_url': 'http://kr.dobrazupa.org/???',  // TODO
+        'watch_url': 'http://kr.dobrazupa.org:8080/#watch-',
+    },*/
+    /*'LLD': {
+        'data_url': 'http://lazy-life.ddo.jp/???',  // TODO
+        'watch_url': '???',  // TODO
+    },*/
+    'CXC': {
+        'data_url': 'http://crawl.xtahua.com/cgi-bin/dgl-status',
+        'watch_url': 'http://crawl.xtahua.com:8080/#watch-',
+    },
+    /*'CPO': {
+        'data_url': 'https://crawl.project357.org/???',  // TODO
+        'watch_url': '???',  // TODO
+    },*/
+};
+
 // Enum for each column in the table
-var PLAYER  = 0,
-    VER     = 1,
-    GAME    = 2,
-    XL      = 3,
-    SP      = 4,
-    BG      = 5,
-    PLACE   = 6,
-    IDLE    = 7,
-    VIEWERS = 8,
-    HOST    = 9;
+var PLAYER_COL  = 0,
+    VER_COL     = 1,
+    GAME_COL    = 2,
+    XL_COL      = 3,
+    SP_COL      = 4,
+    BG_COL      = 5,
+    PLACE_COL   = 6,
+    IDLE_COL    = 7,
+    VIEWERS_COL = 8,
+    SERVER_COL  = 9,
+    NUM_COLUMNS = 10;  // This is as bad as Crawl code
+
 // In the "Player" column, truncate any names longer than this
 var MAX_NAME_LEN = 13;
+
 // Milliseconds between data reload
 var RELOAD_INTERVAL = 30000;
 
@@ -41,16 +64,17 @@ function fetchPlayerData() {
     var results = [];
     var requests = 0;
 
-    $.each(TARGETS, function(i) {
-        $.get('fetch.php', TARGETS[i], function(data) {
+    $.each(SERVERS, function(server) {
+        $.get('fetch.php', {'server': server, 'data_url': SERVERS[server]['data_url']}, function(data) {
             // Throw away data if the page is broken or if no players are on
-            if (isJSON(data, TARGETS[i])) {
+            if (isJSON(data, server)) {
                 $.merge(results, JSON.parse(data));
             }
 
             // These GETs are all async. Proceed only once they're all finished
+            // TODO: Promises
             requests += 1;
-            if (requests === TARGETS.length) {
+            if (requests === Object.keys(SERVERS).length) {
                 formatData(results);
             }
         });
@@ -59,21 +83,33 @@ function fetchPlayerData() {
 
 // Gussy up our raw data
 function formatData(data) {
+    // Our terrible PHP-based dgl-status parser is easily confused,
+    // especially by custom branch names that we did not expect.
+    // A bold future of proper JSON responses awaits us.
+    // But for the moment, we attempt to throw away bad data
+    // with an imperfect sanity check.
+    for (var idx=data.length-1; idx>0; idx--) {
+        if (data[idx].length !== NUM_COLUMNS) {
+            console.error("Row has an invalid number of columns:", data[idx]);
+            data.splice(idx, 1);
+        }
+    }
+
     // When the user-selected sort criteria cannot order two elements,
     // tablesorter falls back to ordering them via their initial order in the
     // table. Here we establish that initial order by sorting on player name.
     data.sort(function(a, b) {
-        return a[PLAYER].toLowerCase() < b[PLAYER].toLowerCase() ? -1 : 1;
+        return a[PLAYER_COL].toLowerCase() < b[PLAYER_COL].toLowerCase() ? -1 : 1;
     });
 
     var fmtdata = $.extend(true, [], data);  // Recursively copy the array
     // Each array in `data` looks like this:
-    //  Player      Versn   Game   XL   Sp   Bg   Place     Idle  Vwr Host
+    //  Player      Versn   Game   XL   Sp   Bg   Place     Idle  Vwr Server
     // ["DrPraetor","trunk","dcss","10","Op","EE","Volcano","722","0","CAO"]
     $.each(data, function(i1) {
-        fmtdata[i1][PLAYER] = formatPlayer(data[i1]);  // Link to player page
-        fmtdata[i1][IDLE] = formatIdle(data[i1]);  // Turn seconds into 00:00
-        fmtdata[i1][VIEWERS] = formatViewers(data[i1]);  // Link to watch page
+        fmtdata[i1][PLAYER_COL] = formatPlayer(data[i1]);  // Link to player page
+        fmtdata[i1][IDLE_COL] = formatIdle(data[i1]);  // Turn seconds into 00:00
+        fmtdata[i1][VIEWERS_COL] = formatViewers(data[i1]);  // Link to watch page
     });
 
     drawTable(fmtdata);
@@ -105,7 +141,7 @@ function drawTable(data) {
                         '<th>Place</th>' +
                         '<th>Idle</th>' +
                         '<th>Viewers</th>' +
-                        '<th>Host</th>' +
+                        '<th>Server</th>' +
                       '</tr></thead>' +
                       '<tbody>';
 
@@ -130,7 +166,7 @@ function drawTable(data) {
                  '</span>';
 
     // By default, sort by "Viewers", descending
-    var sortOrder = [[VIEWERS, 1]];
+    var sortOrder = [[VIEWERS_COL, 1]];
     // Remember our sort order across updates
     if ($('#statustable').length > 0 && $('#statustable')[0].config) {
        sortOrder = $('#statustable')[0].config.sortList;
@@ -146,8 +182,8 @@ function drawTable(data) {
 
     var tsOptions = {sortList: sortOrder, headers: {}};
     // Use our custom parsers to sort these columns
-    tsOptions.headers[PLACE] = {sorter: 'place'};
-    tsOptions.headers[VIEWERS] = {sorter: 'viewers'};
+    tsOptions.headers[PLACE_COL] = {sorter: 'place'};
+    tsOptions.headers[VIEWERS_COL] = {sorter: 'viewers'};
     $('#statustable').tablesorter(tsOptions);
 
     // Do it all over again every 30 secs
@@ -158,19 +194,19 @@ function drawTable(data) {
 function formatPlayer(datum) {
     return '<a target="_blank"' +
            ' href="http://crawl.akrasiac.org/scoring/players/' +
-           datum[PLAYER].toLowerCase() +
+           datum[PLAYER_COL].toLowerCase() +
            '">' +
-           (datum[PLAYER].length > MAX_NAME_LEN
-            ? datum[PLAYER].substring(0, MAX_NAME_LEN-1) + '…'
-            : datum[PLAYER]) +
+           (datum[PLAYER_COL].length > MAX_NAME_LEN
+            ? datum[PLAYER_COL].substring(0, MAX_NAME_LEN-1) + '…'
+            : datum[PLAYER_COL]) +
            '</a>';
 }
 
 // Idle time is received as elapsed seconds, so we put it in 00:00 format.
 // Sorting assumes no idle time greater than 99:99 (server should d/c by then)
 function formatIdle(datum) {
-    var minutes = Math.floor(datum[IDLE] / 60);
-    var seconds = datum[IDLE] % 60;
+    var minutes = Math.floor(datum[IDLE_COL] / 60);
+    var seconds = datum[IDLE_COL] % 60;
 
     // Rarely the server won't d/c a super-idler and will increment forever.
     // Return infinity rather than a useless enormous number.
@@ -182,32 +218,33 @@ function formatIdle(datum) {
     return minutes + ':' + seconds;
 }
 
-// Add an entry to the WATCH_URLS object to automatically add new [Watch] links
+// Adds a [Watch] link for servers that have them.
 function formatViewers(datum) {
-    if (WATCH_URLS[datum[HOST]] !== undefined) {
-        return datum[VIEWERS] +
+    var watch_url = SERVERS[datum[SERVER_COL]]['watch_url'];
+    if (watch_url !== null) {
+        return datum[VIEWERS_COL] +
                '&nbsp;[' +
                '<a target="_blank" href="' +
-               WATCH_URLS[datum[HOST]] +
-               datum[PLAYER].toLowerCase() +
+               watch_url +
+               datum[PLAYER_COL].toLowerCase() +
                '">' +
                'Watch' +
                '</a>' +
                ']';
     }
     else {
-        return datum[VIEWERS];
+        return datum[VIEWERS_COL];
     }
 }
 
 // Returns false when a server has no players or when a status page is broken
-function isJSON(str, target) {
+function isJSON(str, server) {
     try {
         JSON.parse(str);
     } catch (e) {
-        console.log(e);
-        console.log('...while parsing data from ' + target['src'] +
-                    ' (' + target['tag'] + ')');
+        console.error(e);
+        console.error('...while parsing data from ' + SERVERS[server]['data_url'] +
+                    ' (' + server + ')');
         return false;
     }
     return true;
