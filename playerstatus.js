@@ -1,3 +1,5 @@
+// TODO: incrementally update table with data instead of blocking on receiving all responses
+
 playerstatus = (function() {
 
 // Add new hosts to this object
@@ -243,8 +245,8 @@ function isJSON(str, server) {
         JSON.parse(str);
     } catch (e) {
         console.error(e);
-        console.error('...while parsing data from ' + SERVERS[server]['data_url'] +
-                    ' (' + server + ')');
+        console.error('...while parsing the following data:', str);
+        console.error('...from ' + SERVERS[server]['data_url'] + ' (' + server + ')');
         return false;
     }
     return true;
